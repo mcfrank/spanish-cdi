@@ -46,8 +46,56 @@ sp_ws <- bind_rows(eu_ws,
                    ar_ws)
 ```
 
+Make a plot!
 
 ```{r}
-
+ggplot(sp_ws, aes(x = age, y = production)) + 
+  geom_jitter(width = .2, alpha = .2) + 
+  geom_smooth() + 
+  facet_wrap(~language)
 ```
+
+
+# Comparison on the intersection of items
+
+QUESTION: Do the sumscores across the intersecting items look the same at the population level (correcting for demographics)?
+
+```{r}
+langs <- c("Spanish (European)", "Spanish (Mexican)", "Spanish (Peruvian)", "Spanish (Argentinian)")
+
+d_ws <- map(langs, function(x) get_instrument_data(language = x, 
+                                                  form = "WS", 
+                                                  administration_info = TRUE, 
+                                                  item_info = TRUE))
+```
+
+Find the overlapping unilemmas.
+
+For now, pull those unilemmas that are 1) in all languages, 2) only once in each language. 
+
+```{r}
+items <- map_df(langs, function(x) get_item_data(language = x, form = "WS"))
+
+intersection <- items |>
+  group_by(uni_lemma) |>
+  summarise(n_langs = length(unique(language)), 
+            n = n()) |>
+  filter(n_langs == 4, n == 4) |>
+  pull(uni_lemma)
+``` 
+
+Filter data and replot. 
+
+```{r}
+ms_ws <- d_ws |>
+  filter(uni_lemma %in% intersection) |>
+  group_by(child_id, language, age) |>
+  summarise(produces = sum(produces))
+
+ggplot(ms_ws, aes(x = age, y = produces)) + 
+  geom_jitter(width = .2, alpha = .2) + 
+  geom_smooth() + 
+  facet_wrap(~language)
+```
+
 
