@@ -1,0 +1,53 @@
+---
+title: "Spanish CDI explorations"
+author: "Paulina & Mike"
+date: "2022-10-13"
+output: html_document
+---
+
+# Intro
+
+Goal of this project is to use the five Spanish CDI datasets in Wordbank to try and investigate dialect variation in Spanish language acquisition. 
+
+Here are some potential questions:
+
+* Do the sumscores across the intersecting items look the same at the population level (correcting for demographics)?
+* Do individual common items have similar psychometric / developmental properties?
+* What are the properties of items with the same unilemma but different item definitions?
+* What are the properties of items that are not shared across dialects? (Could also compare Spanish (Mexican) between monolingual and bilingual populations)
+
+
+```{r setup}
+library(tidyverse)
+library(wordbankr)
+```
+
+# Data loading
+
+Start with summary scores. 
+
+```{r}
+eu_ws <- get_administration_data(language = "Spanish (European)", 
+                                 form = "WS", 
+                                 include_demographic_info = TRUE)
+mx_ws <- get_administration_data(language = "Spanish (Mexican)", 
+                                 form = "WS", 
+                                 include_demographic_info = TRUE)
+pr_ws <- get_administration_data(language = "Spanish (Peruvian)", 
+                                 form = "WS", 
+                                 include_demographic_info = TRUE)
+ar_ws <- get_administration_data(language = "Spanish (Argentinian)", 
+                                 form = "WS", 
+                                 include_demographic_info = TRUE)
+
+sp_ws <- bind_rows(eu_ws, 
+                   mx_ws, 
+                   pr_ws, 
+                   ar_ws)
+```
+
+
+```{r}
+
+```
+
