@@ -20,6 +20,7 @@ Here are some potential questions:
 ```{r setup}
 library(tidyverse)
 library(wordbankr)
+library(arm)
 ```
 
 # Data loading
@@ -63,10 +64,10 @@ QUESTION: Do the sumscores across the intersecting items look the same at the po
 ```{r}
 langs <- c("Spanish (European)", "Spanish (Mexican)", "Spanish (Peruvian)", "Spanish (Argentinian)")
 
-d_ws <- map(langs, function(x) get_instrument_data(language = x, 
-                                                  form = "WS", 
-                                                  administration_info = TRUE, 
-                                                  item_info = TRUE))
+d_ws <- map_df(langs, function(x) get_instrument_data(language = x, 
+                                                      form = "WS", 
+                                                      administration_info = TRUE, 
+                                                      item_info = TRUE))
 ```
 
 Find the overlapping unilemmas.
@@ -82,6 +83,7 @@ intersection <- items |>
             n = n()) |>
   filter(n_langs == 4, n == 4) |>
   pull(uni_lemma)
+# 224 common items
 ``` 
 
 Filter data and replot. 
@@ -98,4 +100,45 @@ ggplot(ms_ws, aes(x = age, y = produces)) +
   facet_wrap(~language)
 ```
 
+
+
+# Comparison of developmental properties
+
+QUESTION: Do individual common items have similar psychometric / developmental properties?
+
+```{r}
+source("scripts/fit_models.R")
+
+wb_data <- d_ws |> 
+  filter(uni_lemma %in% intersection) |>
+  group_by(uni_lemma, language, age) |> 
+  summarise(total = n(),
+            num_true = sum(produces, na.rm = TRUE))
+
+aoas <- fit_aoas(wb_data)
+```
+
+```{r}
+ggplot(data = aoas) +
+  geom_histogram(aes(x = aoa))+ 
+  facet_wrap(~language)
+```
+
+Calculate correlations between languages
+
+```{r}
+cor_data <- aoas |> 
+  pivot_wider(id_cols = uni_lemma, 
+              names_from = language,
+              values_from = aoa) |> 
+  ungroup()
+
+correl <- cor(cor_data |> dplyr::select(-"uni_lemma"), use = "complete.obs")
+```
+
+Plot correlogram
+```{r}
+library(corrgram)
+corrgram(correl, type = "cor", panel = panel.cor)
+```
 
