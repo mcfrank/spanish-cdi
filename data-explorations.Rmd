@@ -142,3 +142,18 @@ library(corrgram)
 corrgram(correl, type = "cor", panel = panel.cor)
 ```
 
+```{r}
+plot_data <- cor_data |> 
+  pivot_longer(cols = c(`Spanish (Argentinian)`, `Spanish (Mexican)`, `Spanish (Peruvian)`), 
+               names_to = "Dialect")
+ggplot(plot_data, aes(x = `Spanish (European)`, y = value, col = Dialect)) + 
+  geom_abline(slope = 1, intercept = 0, lty = "dashed", col = "#444444") +
+  geom_point(alpha=.3) +
+  geom_smooth(method = "lm") +
+  theme_classic() + 
+  theme(legend.position = "bottom") +
+  labs(x = "Spanish (European) AoA",
+       y = "Spanish (Latin American) AoA") +
+  coord_cartesian(xlim = c(0, 40), ylim = c(0, 40))
+```
+
