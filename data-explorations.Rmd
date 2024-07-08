@@ -157,3 +157,23 @@ ggplot(plot_data, aes(x = `Spanish (European)`, y = value, col = Dialect)) +
   coord_cartesian(xlim = c(0, 40), ylim = c(0, 40))
 ```
 
+Calculate differences in age of acquisition (AoA) between all dialects for each unilemma
+```{r}
+clean_aoas <- aoas |>
+  dplyr::select(uni_lemma, language, aoa) |>
+  pivot_wider(names_from = language, values_from = aoa)
+
+difference_argentinian_european <- data.frame(difference_argentinian_european = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (European)`)))
+
+difference_argentinian_mexican <- data.frame(difference_argentinian_mexican = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Mexican)`)))
+
+difference_argentinian_peruvian <- data.frame(difference_argentinian_peruvian = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Peruvian)`)))
+
+difference_european_mexican <- data.frame(difference_european_mexican = abs(c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Mexican)`)))
+
+difference_european_peruvian <- data.frame(difference_european_peruvian = abs(c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Peruvian)`)))
+
+difference_mexican_peruvian <- data.frame(difference_mexican_peruvian = abs(c(clean_aoas$`Spanish (Mexican)`- clean_aoas$`Spanish (Peruvian)`)))
+
+difference_AoA <- data.frame(uni_lemma = c(clean_aoas$uni_lemma), difference_argentinian_european, difference_argentinian_mexican, difference_argentinian_peruvian, difference_european_mexican, difference_european_peruvian, difference_mexican_peruvian)
+```
