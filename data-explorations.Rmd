@@ -163,17 +163,216 @@ clean_aoas <- aoas |>
   dplyr::select(uni_lemma, language, aoa) |>
   pivot_wider(names_from = language, values_from = aoa)
 
-difference_argentinian_european <- data.frame(difference_argentinian_european = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (European)`)))
+difference_argentinian_european <- data.frame(difference_argentinian_european = c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (European)`))
 
-difference_argentinian_mexican <- data.frame(difference_argentinian_mexican = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Mexican)`)))
+difference_argentinian_mexican <- data.frame(difference_argentinian_mexican = c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Mexican)`))
 
-difference_argentinian_peruvian <- data.frame(difference_argentinian_peruvian = abs(c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Peruvian)`)))
+difference_argentinian_peruvian <- data.frame(difference_argentinian_peruvian = c(clean_aoas$`Spanish (Argentinian)`- clean_aoas$`Spanish (Peruvian)`))
 
-difference_european_mexican <- data.frame(difference_european_mexican = abs(c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Mexican)`)))
+difference_european_mexican <- data.frame(difference_european_mexican = c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Mexican)`))
 
-difference_european_peruvian <- data.frame(difference_european_peruvian = abs(c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Peruvian)`)))
+difference_european_peruvian <- data.frame(difference_european_peruvian = c(clean_aoas$`Spanish (European)`- clean_aoas$`Spanish (Peruvian)`))
 
-difference_mexican_peruvian <- data.frame(difference_mexican_peruvian = abs(c(clean_aoas$`Spanish (Mexican)`- clean_aoas$`Spanish (Peruvian)`)))
+difference_mexican_peruvian <- data.frame(difference_mexican_peruvian = c(clean_aoas$`Spanish (Mexican)`- clean_aoas$`Spanish (Peruvian)`))
 
 difference_AoA <- data.frame(uni_lemma = c(clean_aoas$uni_lemma), difference_argentinian_european, difference_argentinian_mexican, difference_argentinian_peruvian, difference_european_mexican, difference_european_peruvian, difference_mexican_peruvian)
 ```
+
+Permutation testing on dialect correlations
+```{r} 
+# Function to perform permutation test
+perm_test <- function(dialect1, dialect2, n_permutations = 10000) {
+  
+  # Remove NA values
+  valid_indices <- complete.cases(dialect1, dialect2)
+  dialect1 <- dialect1[valid_indices]
+  dialect2 <- dialect2[valid_indices]
+  
+  # Check for zero variance
+  if (var(dialect1) == 0 | var(dialect2) == 0) {
+    return(NA)
+  }
+  
+  observed_correlation <- cor(dialect1, dialect2)
+  permuted_correlations <- numeric(n_permutations)
+  
+  for (i in 1:n_permutations) {
+    permuted_dialect2 <- sample(dialect2)
+    permuted_correlations[i] <- cor(dialect1, permuted_dialect2)
+  }
+  
+  p_value <- mean(permuted_correlations >= observed_correlation)
+  return(p_value)
+}
+
+# Extract the data for each dialect
+argentinian <- cor_data$`Spanish (Argentinian)`
+european <- cor_data$`Spanish (European)`
+mexican <- cor_data$`Spanish (Mexican)`
+peruvian <- cor_data$`Spanish (Peruvian)`
+
+# Create an empty data frame to store p-values
+p_values <- data.frame(
+  Dialect1 = character(),
+  Dialect2 = character(),
+  P_Value = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# Perform permutation tests for each pair of dialects
+dialects <- list(argentinian, european, mexican, peruvian)
+dialect_names <- c("Spanish (Argentinian)", "Spanish (European)", "Spanish (Mexican)", "Spanish (Peruvian)")
+
+for (i in 1:length(dialects)) {
+  for (j in i:length(dialects)) {
+    if (i != j) {
+      p_val <- perm_test(dialects[[i]], dialects[[j]])
+      p_values <- data.frame(rbind(p_values, data.frame(Dialect1 = dialect_names[i], Dialect2 = dialect_names[j], P_Value = p_val)))
+    }
+  }
+}
+```
+
+Regression 
+```{r}
+#Load gamlss library
+library(gamlss)
+
+#Clean sp_ws data frame to include only necessary rows
+ sp_ws_minimal <- dplyr::select(sp_ws, age, production, language)
+
+#Find prop_produced for each dialect
+items_filtered <- filter(items, items$item_kind == 'word')
+
+sp_ws_left_join <- left_join(sp_ws_minimal,(items_filtered |> group_by(language) |> summarise(n = n())))
+
+sp_ws_prop_produced <- mutate(sp_ws_left_join, prop_produced = sp_ws_left_join$production / sp_ws_left_join$n)
+
+#Run regression
+gam_mod <- gamlss(prop_produced ~ pbm(age, lambda = 10000) * as.factor(language),
+                  sigma.formula = ~ pbm(age, lambda = 10000) * as.factor(language),
+                  data = sp_ws_prop_produced)
+summary(gam_mod)
+```
+
+Fitting regression data to a curve 
+```{r}
+# Generate a sequence of ages for prediction
+age_seq <- seq(min(sp_ws_prop_produced$age), max(sp_ws_prop_produced$age), by = 0.1)
+
+# Create a new data frame for predictions
+new_data <- expand.grid(age = age_seq, 
+                        language = unique(sp_ws_prop_produced$language))
+
+# Generate predictions from the model
+new_data$predicted <- predict(gam_mod, newdata = new_data, type = "response")
+
+# Plot the data and the fitted curve
+ggplot(sp_ws_prop_produced, aes(x = age, y = prop_produced, color = language)) +
+  geom_point() +
+  geom_line(data = new_data, aes(x = age, y = predicted, color = language), linewidth = 1) +
+  labs(title = "Predicted Proportion Produced by Age and Language",
+       x = "Age",
+       y = "Proportion Produced") +
+  theme_minimal()
+```
+
+Comparing identical/nonidentical surface forms
+```{r}
+# Filter "items" data-set to "words" only, then filter again so that it contains only those uni_lemmas contained in the "aoas" data frame
+items_filtered <- filter(items, items$item_kind == 'word') %>% 
+  filter(uni_lemma %in% c((clean_aoas$uni_lemma)))
+# Arrange "uni_lemma" and "language" columns to match with order of said columns in "aoas" data frame
+  arrange(items_filtered, uni_lemma, language)
+# Trim dataframe to include only necessary columns
+items_filtered <- items_filtered %>%
+  dplyr::select(language, item_definition, uni_lemma)
+# Clean up discrepancies and match up with AoA data in a CSV file. Then read into a new data frame
+uni_lemma_aoa <- read.csv("cleaned_items_aoa.csv")
+# Pivot into a wider dataframe which includes language, uni_lemma, and cleaned surface forms
+cleaned_uni_lemma_wider <- uni_lemma_aoa %>%
+  dplyr::select(language, uni_lemma, aoa, cleaned_item) %>%
+  pivot_wider(names_from = language, values_from = aoa)
+#Create a data frame containing identical surface forms for European and Mexican Spanish
+European_Mexican_Same <- cleaned_uni_lemma_wider %>%
+  dplyr::select("uni_lemma", "cleaned_item", "Spanish (European)", "Spanish (Mexican)") %>%
+  na.omit()
+#Calculate the correlation between the AoA values of identical surface forms in the two dialects
+correlation_European_Mexican_same <- cor(European_Mexican_Same$`Spanish (European)`, European_Mexican_Same$`Spanish (Mexican)`)
+print(correlation_European_Mexican_same)
+#Create a data frame containing non-identical surface forms for European and Mexican Spanish
+European_Mexican_Different <- cleaned_uni_lemma_wider %>%
+  dplyr::select("uni_lemma", "cleaned_item", "Spanish (European)", "Spanish (Mexican)") %>%
+  filter(is.na(cleaned_uni_lemma_wider$`Spanish (European)`)| is.na(cleaned_uni_lemma_wider$`Spanish (Mexican)`))
+#Write this data frame to a CSV file, clean to remove NA values and match up AoA values with only one uni_lemma. Read back in
+European_Mexican_Different <- read.csv("E_M_DD.csv")
+#Calculate the correlation between the AoA values of non-identical surface forms in the two dialects
+correlation_European_Mexican_different <- cor(European_Mexican_Different$Spanish..European., European_Mexican_Different$Spanish..Mexican.)
+print(correlation_European_Mexican_different)
+```
+## Step 1: Fit the 2PL model
+We fit the 2PL model using `itemtype = "2PL"`.
+```{r}
+fit.2pl <- mirt(df.data,
+                model = modstr,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+# model coefficients
+coef.2pl <- as_tibble(coef(fit.2pl, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl
+```
+Now we see that discrimination (`a1`) varies across items.
+Higher discriminability estimates indicate that the item has a better ability to tell the difference between different levels of latent ability, as will be made clearer in the ICC plots.
+
+## Step 2: Plot the Item Characteristic Curves 
+```{r}
+tracePlot(fit.2pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+Unlike the ICCs for the 1PL model, the ICCs for the 2PL model do not all have the same shape. 
+Item curves which are more "spread out" indicate lower discriminability (i.e., that individuals of a range of ability levels have some probability of getting the item correct). 
+Compare this to an item with high discriminability (steep slope): for this item, we have a better estimate of the individual's latent ability based on whether they got the question right or wrong.
+
+*A note about difficulty*: Because of the differing slopes, the rank-order of item difficulty changes across different latent ability levels. We can see that item 9 is generally still the most difficult item (i.e. lowest probability of getting correct for most latent trait values, up until about $\theta=3.3$). 
+
+## Step 3: Plot the Item Information Curves for Items & Test
+```{r}
+itemInfoPlot(fit.2pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+The item IICs demonstrate that some items provide more information about latent ability for different ability levels. 
+The higher the item discriminability estimate, the more information an item provides about ability levels around the point where there is a .5 probability of getting the item right (i.e. the steepest point in the ICC slope). 
+For example, item 9 clearly provides the most information at high ability levels, around $\theta=2.3$, but almost no information about low ability levels (< -1) because the item is already too hard for those participants. 
+In contrast, item 8, which has low discriminability, doesn't give very much information overall, but covers a wide range of ability levels.
+
+Next, we plot the item information curve for the whole test. This is the sum of all the item IICs above.
+```{r}
+testInfoPlot(fit.2pl)
+```
+  
+The IIC for the whole test shows that the test provides the most information for slightly-higher-than average ability levels (about $\theta=1$), but does not provide much information about extremely high or low ability levels.
+
+## Step 4: Examine fit of the 2PL model
+Next, we test how well the 2PL model fits the data.
+```{r}
+itemfit(fit.2pl, na.rm = TRUE)
+```
+
+Item 9 is still problematic, as before.
+
+## Step 5: Estimate & Plot Ability Scores 
+
+Estimate the individual latent ability scores using the `factor.scores()` function in the `ltm` library.
+```{r}
+theta.2pl <- fscores(fit.2pl)
+
+head(theta.2pl, 10)
+```
+
+Plot the density curve of the estimated ability scores
+```{r}
+personDist(fit.2pl)
+```
+
