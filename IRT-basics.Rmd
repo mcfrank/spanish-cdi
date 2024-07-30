@@ -1,0 +1,574 @@
+---
+title: "Basic IRT Models"
+author: "Alvin Tan, George Kachergis, Nilam Ram et al."
+date: "July 10, 2023"
+output: 
+  html_document:
+    df_print: kable
+    mathjax: default
+    toc: true     #table of content true
+    toc_depth: 3  #up to 3 depths of headings in toc (specified by #, ## and ###)
+    number_sections: true  # to number sections at each table header
+    toc_float: false
+    theme: default  #specifies the theme
+    highlight: tango  #specifies the syntax highlighting style
+editor_options: 
+  chunk_output_type: console
+---
+
+_Credit:_ Structure, code, and examples include material from [Julie Wood](https://quantdev.ssri.psu.edu/sites/qdev/files/IRT_tutorial_FA17_2.html), [Philipp](https://philippmasur.de/2022/05/13/how-to-run-irt-analyses-in-r/) [Masur](https://github.com/ccs-amsterdam/r-course-material/blob/master/tutorials/R_test-theory_3_irt_graded.md), and [Phil Chalmers](https://philchalmers.github.io/mirt/html/ltm_models_with_mirt.html).
+
+# Overview:
+Item response theory (IRT) is a paradigm for investigating the relationship between an individual's response to a single test item and their level of an ability or trait that item was intended to measure. 
+This tutorial provides a demonstration of fiting a basic set of some basic IRT models:  *1-parameter, 2-parameter, and 3-parameter logistic IRT models* (1PL, 2PL, and 3PL) for binary items, and the *graded response model* for ordinal (likert-scale) items.
+
+For each model we create
+* Summary plots
+* Estimate latent ability scores
+* Test the fit of the model
+
+# 1-Parameter Logistic Model (1PL)
+
+At the core of these IRT models is an *item response function (IRF)* defined by a logistic function. 
+Here, the function is used to model the probability of an individual getting an item "correct" (i.e., $X=1$) as a function of item characteristics and the individual's latent trait/ability level $\theta$. 
+These item response functions are defined by a logistic curve (i.e., an "S"-shape from 0-1).
+
+The 1PL IRT model (also called the *Rasch model*) describes test items using only one parameter, *item difficulty*, $b$. 
+Item difficulty is defined as the latent trait ability level where an individual would have a .5 probability of getting the item correct. $b$ is estimated for each item of the test. 
+
+The item response function for the 1PL model is given below:
+
+$$P(X_{i}=1|\theta,b_{i})=\frac{e^{a(\theta-b_{i})}}{1+e^{a(\theta-b_{i})}}$$
+Formally, in the Rasch model, there is additional constraint that $a = 1$. But, note that the software is a bit inconsistent in naming of the Rasch model.
+
+## Step 0: Load libraries & Read in Data
+
+Load libraries 
+```{r message=F}
+library(tidyverse) # for data wrangling
+library(psych) # for general functions
+library(glue) # for string gluing
+library(mirt) # for IRT models
+library(ggrepel) # for plot labels
+
+# devtools::install_github("masurp/ggmirt")
+library(ggmirt) # extension for 'mirt' 
+
+knitr::knit_hooks$set(inline = function(x) {
+  x <- sprintf("%1.2f", x)
+  paste(x, collapse = ", ")
+})
+```
+
+For this tutorial, we use simulated data generated using `sim_irt`.
+```{r}
+# simulate data
+set.seed(42)
+df.data <- sim_irt(n.obs = 500, n.items = 10, discrimination = .25, seed = 42)
+
+# look at the data
+head(df.data, 10)
+
+# describe the data
+describe(df.data)
+```
+
+
+## Step 1: Fit the 1PL model
+
+The package `mirt` provides a convenient interface for all kinds of IRT models via `mirt::mirt`.
+We need to first specify a model, in the format `Factor = item_1 - item_n`, which we save as a separate string.
+We then call `mirt::mirt`, specifying the data, the model string, and the item type---in this case, `"Rasch"`.
+Note that the format of the data should _only_ include the involved variables.
+```{r}
+# fit a 1PL model
+modstr <- glue("F = 1 - {ncol(df.data)}")
+fit.1pl <- mirt(df.data,
+                model = modstr,
+                itemtype = "Rasch",
+                verbose = FALSE)
+
+# model coefficients
+coef.1pl <- as_tibble(coef(fit.1pl, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.1pl
+```
+
+Here, we see that there is a range of difficulty values---some are easier to endorse while others are harder to endorse, ranging from `r min(coef.1pl$d)` to `r max(coef.1pl$d)`.
+Note that the values of `d` from `mirt` are in fact _easiness_ values (i.e., negative of difficulty), so items with higher `d` are more easily endorsed.
+
+## Step 2: Plot Item Characteristic Curves 
+
+*Item characteristic curves (ICCs)* are the logistic curves which result from the fitted Rasch models (e.g., item response functions with the estimated item difficulty, `d`, parameter. 
+Latent trait/ability is plotted on the x-axis (higher values represent higher levels of the trait). 
+Probability of a "correct" answer ($X=1$) to an item is plotted on the y-axis. Note that in this 1PL model, all the curves have exactly the same shape, which is given by the `a` parameter in the model output. 
+```{r}
+tracePlot(fit.1pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+
+The relative location of the item characteristic curves map to the parameter estimates in the above output; from the plot we can see that item 2 is the easiest item and item 9 is the hardest item.
+
+## Step 3: Plot Item Information Curves and Test Information Curve 
+
+*Item information curves (IICs)* show how much "information" about the latent trait ability an item gives. 
+Mathematically, the IIC is the 1st derivatives of the ICC. 
+Item information curves peak at the difficulty value (point where the item has the highest discrimination), with less information at ability levels farther from the difficulty estimate. 
+
+```{r}
+itemInfoPlot(fit.1pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+
+We see how the most difficult items only provide information about persons with high ability levels, and that the least difficult items only provide information about persons with low ability levels.  
+Similar to the ICCs, we see that item 9 provides the most information about high ability levels (the peak of its IIC is farthest to the right) and item 2 provides the most information about lower ability levels (the peak of its IIC is farthest to the left).
+
+Note that here all the ICCs and IICs have *exactly* the same shape. 
+This is an assumption in the 1PL model (i.e., we assume that all items are equally good at providing information about the latent trait). 
+This assumption will be relaxed in the 2PL and 3PL models.
+
+We can also plot the information curve for the whole test. 
+This is simply the sum of the individual IICs above. 
+Ideally, we want a test which provides fairly good covereage of a wide range of latent ability levels. 
+Otherwise, the test is only good at identifying a limited range of ability levels. 
+
+```{r}
+testInfoPlot(fit.1pl)
+```
+
+We see that this test provides the most information about slightly-higher-than-average ability levels (the peak is around ability level $\theta=0.5$), and less information about very high and very low ability levels.
+
+## Step 4: Examine the fit of the 1PL model
+
+We run the `mirt::itemfit` function to test whether individual items fit the 1PL model.
+This gives us an S-$X^2$ statistic, along with an associated p-value for each item.
+```{r}
+itemfit(fit.1pl, na.rm = TRUE)
+```
+
+We see from this that item V9 perhaps does not fit the 1PL model so well (small p-value, indicating significant deviation from the model). 
+This is an indication that we should consider not using those items (if we are a Rasch purist) or consider a different IRT model.
+
+## Step 5: Estimate Trait/Ability scores 
+
+Using the results of the 1PL model, we can estimate the latent ability scores for each participant.
+
+We estimate the ability scores with `mirt::fscores()`.
+```{r}
+theta.1pl <- fscores(fit.1pl)
+
+head(theta.1pl, 10)
+```
+
+We can also plot the density curve of the estimated ability scores:
+```{r}
+personDist(fit.1pl)
+```
+  
+We see that the mean of ability scores is around 0, and the standard deviation about 1. 
+These are by definition! 
+Estimated ability scores are standardized by design. 
+The curve is approximately normal-shaped.
+
+# 2-Parameter Logistic (2PL) IRT model
+
+The item response function for the 2-parameter logistic IRT model is:
+$$P(X=1|\theta,a,b)=\frac{e^{a(\theta-b)}}{1+e^{a(\theta-b)}}$$
+The IRF describes the probability that an individual with latent ability level $\theta$ endorses an item ($X=1$) with two item characteristic parameters:  
+1. $b$ is the *item difficulty* (same as 1PL model). Item difficulty is reflected in the position of the item characteristic curve along the x-axis (latent trait ablity).  
+2. $a$ is the *item discriminability*. Discriminability is how well an item is able to discriminate between persons with different ability levels. Item discriminability is reflected in the steepness of the slope of the item characteristic curves.  
+
+## Step 1: Fit the 2PL model
+We fit the 2PL model using `itemtype = "2PL"`.
+```{r}
+fit.2pl <- mirt(df.data,
+                model = modstr,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+# model coefficients
+coef.2pl <- as_tibble(coef(fit.2pl, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl
+```
+Now we see that discrimination (`a1`) varies across items.
+Higher discriminability estimates indicate that the item has a better ability to tell the difference between different levels of latent ability, as will be made clearer in the ICC plots.
+
+## Step 2: Plot the Item Characteristic Curves 
+```{r}
+tracePlot(fit.2pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+Unlike the ICCs for the 1PL model, the ICCs for the 2PL model do not all have the same shape. 
+Item curves which are more "spread out" indicate lower discriminability (i.e., that individuals of a range of ability levels have some probability of getting the item correct). 
+Compare this to an item with high discriminability (steep slope): for this item, we have a better estimate of the individual's latent ability based on whether they got the question right or wrong.
+
+*A note about difficulty*: Because of the differing slopes, the rank-order of item difficulty changes across different latent ability levels. We can see that item 9 is generally still the most difficult item (i.e. lowest probability of getting correct for most latent trait values, up until about $\theta=3.3$). 
+
+## Step 3: Plot the Item Information Curves for Items & Test
+```{r}
+itemInfoPlot(fit.2pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+The item IICs demonstrate that some items provide more information about latent ability for different ability levels. 
+The higher the item discriminability estimate, the more information an item provides about ability levels around the point where there is a .5 probability of getting the item right (i.e. the steepest point in the ICC slope). 
+For example, item 9 clearly provides the most information at high ability levels, around $\theta=2.3$, but almost no information about low ability levels (< -1) because the item is already too hard for those participants. 
+In contrast, item 8, which has low discriminability, doesn't give very much information overall, but covers a wide range of ability levels.
+
+Next, we plot the item information curve for the whole test. This is the sum of all the item IICs above.
+```{r}
+testInfoPlot(fit.2pl)
+```
+  
+The IIC for the whole test shows that the test provides the most information for slightly-higher-than average ability levels (about $\theta=1$), but does not provide much information about extremely high or low ability levels.
+
+## Step 4: Examine fit of the 2PL model
+Next, we test how well the 2PL model fits the data.
+```{r}
+itemfit(fit.2pl, na.rm = TRUE)
+```
+
+Item 9 is still problematic, as before.
+
+## Step 5: Estimate & Plot Ability Scores 
+
+Estimate the individual latent ability scores using the `factor.scores()` function in the `ltm` library.
+```{r}
+theta.2pl <- fscores(fit.2pl)
+
+head(theta.2pl, 10)
+```
+
+Plot the density curve of the estimated ability scores
+```{r}
+personDist(fit.2pl)
+```
+  
+We see that the estimated ability scores are roughly normally distributed, with mean 0 and SD 1. 
+This is by definition of the 2PL model (i.e., ability estimates are standardized).
+
+# 3-Parameter Logistic (3PL) IRT model
+
+The item response function for the 3-parameter logistic IRT model is:
+$$P(X=1|\theta,a,b,c)=c+(1-c)~\frac{e^{a(\theta-b)}}{1+e^{a(\theta-b)}}$$
+The IRF describes the probability that an individual with latent ability level $\theta$ endorses an item with three item characteristic paramters:  
+1. $b$ is the *item difficulty*. This is reflected in the position of the item characteristic curve along the x-axis (i.e. latent trait)  
+2. $a$ is the *item discrimination*. This is reflected in the steepness of the slope of the ICC.  
+3. $c$ is a parameter for *guessing*. Under this model, individuals with zero ability have a nonzero chance of endorsing any item, just by guessing randomly. The guessing parameter is reflected in the y-intercept (i.e. probability) of the ICC.  
+
+## Step 1: Fit the 3PL model
+
+We fit the 3PL model using `itemtype = "3PL"`.
+```{r}
+fit.3pl <- mirt(df.data,
+                model = modstr,
+                itemtype = "3PL",
+                verbose = FALSE)
+
+# model coefficients
+coef.3pl <- as_tibble(coef(fit.3pl, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.3pl
+```
+Note that the guessing parameters are mostly very small here, indicating relatively low overall rate of guessing (according to the fitted model).
+
+## Step 2: Plot Item Characteristic Curves 
+```{r}
+tracePlot(fit.3pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+The slopes of the ICCs look very similar to those of the 2PL model. 
+We can see that item 4 has a y-intercept greater than zero. 
+Even at very low ability levels, there is some chance of getting these items correct (via guessing).
+  
+## Step 3: Plot the item information curves for all 10 items, then the whole test
+```{r}
+itemInfoPlot(fit.3pl, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+```
+  
+The IICs have changed markedly from the 2PL model. Item 4 now provides the most information about moderate ability levels.
+
+We plot the IIC for the entire test, the sum of the item IICs:
+```{r}
+testInfoPlot(fit.3pl)
+```
+  
+The whole-test IIC looks similar to the IICs for the 1PL and 2PL models, providing the most information about moderate ability levels, and less about extreme ability levels.
+
+## Step 4: Estimate & Plot Ability Scores
+We estimate the ability scores with the `factor.scores()` function in the `ltm` package.
+```{r}
+theta.3pl <- fscores(fit.3pl)
+```
+
+We then plot the density curve of the estimated ability scores
+```{r}
+personDist(fit.3pl)
+```
+  
+Again we see an approximately normal distribution with mean approximately 0 and standard deviation approximately 1.
+
+# Compare models
+```{r}
+# compare using anova function
+anova(fit.1pl, fit.2pl) # lower (=better) AIC & BIC for 1PL (vs. 2PL)
+anova(fit.2pl, fit.3pl) # lower (=better) AIC & BIC for 2PL (vs. 3PL)
+```
+
+The model comparison suggests we go with the 1PL model (of the models fit to the data). 
+
+# Differential Item Functioning
+
+Here we explore how to run a DIF analysis using `mirt`.
+To do so, we need a grouping variable (e.g., gender, SES, race/ethnicity), which we also simulate.
+```{r}
+grp <- round(runif(nrow(df.data))) |> as.factor()
+```
+
+Now we fit a multiple-group 2PL IRT model using `mirt::multipleGroup`.
+```{r}
+fit.2plmulti <- multipleGroup(df.data,
+                              model = modstr,
+                              itemtype = "2PL",
+                              group = grp,
+                              verbose = FALSE)
+```
+
+We can then do a likelihood ratio test using `mirt::DIF`. 
+Effectively, for a given item, we want to test whether constraining its parameters to be the same across groups results in significantly worse fit than a model that has distinct parameters for each group.
+We can indicate which parameters we want to test using the argument `which.par`, and the items to test for DIF using the argument `items2test`. 
+Note that we are doing multiple comparisons, so we also specify a p-value adjustment.
+```{r}
+dif.2plmulti <- DIF(fit.2plmulti,
+                    which.par = c("a1", "d"),
+                    items2test = c(1:ncol(df.data)),
+                    p.adjust = "BH")
+dif.2plmulti
+```
+Here we see that no items have a significant p-value, which means that no item exhibits significant DIF.
+
+# Graded Response Model for Polytomous Items
+
+We use data from Dienlin & Metzger (2016), specifically the four items related to privacy concerns.
+Some items were reverse coded (e.g., "I do not feel especially concerned about my privacy online.")
+These were rated on a 5-point Likert scale from 1 (strongly disagree) to 5 (strongly agree).
+
+## Step 0 - Getting the data 
+```{r}
+df.pc <- read.csv("https://osf.io/bu74a/download", header = TRUE, na.strings = "NA") |> 
+  as_tibble() |> 
+  select(PRI.CON_1:PRI.CON_4) |> 
+  na.omit()
+
+head(df.pc)
+
+describe(df.pc)
+```
+
+The descriptives show that all the items differ in their means, and all have min of 1 and max of 5. 
+
+## Step 1: Fit the GRM model
+
+The GRM model is fit to the data using `itemtype = "graded"`. 
+```{r}
+# fitting the GRM model
+modpoly <- "F = 1 - 4"
+fit.grm <- mirt(df.pc, 
+                model = modpoly,
+                itemtype = "graded",
+                verbose = FALSE)
+
+# model coefficients
+coef.grm <- as_tibble(coef(fit.grm, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.grm
+```
+
+Here we can see all the various parameters for each of the items and the thresholds between categories (labelled `d`). 
+
+## Step 2: Plot Item Category Characteristic Curves 
+
+Item category characteristic curves indicate how the responses move across categories in relation to ability level. 
+Latent trait/ability is plotted on the x-axis (higher values represent higher ability). 
+Probability of each response category for an item is plotted on the y-axis. 
+```{r}
+tracePlot(fit.grm, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set1")
+```
+
+From these plot, we see that the items all work differently, but that the categories are ordered in the same (assumed) way. 
+Category 1 is always the easiest and 5 always the most difficult. 
+The relative location of the item category characteristic curves map to the parameter estimates in the above output. 
+
+## Step 3: Plot Item Information Curves and Test Information Curve 
+
+Note now how some of the item information curves fluctuate as the difficulty values of each category within item change. 
+
+```{r}
+itemInfoPlot(fit.grm, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set1")
+```
+
+We see how the response format propels additional information in each item, but that the items still differ in where they provide that information. 
+Note also that there remains differences in the informativity of different items, where item 2 is much more informative over much of the theta range than item 3.
+
+We can also plot the information curve for the whole test. 
+
+```{r}
+testInfoPlot(fit.grm)
+```
+
+We see that the use of ordinal responses has allowed for a test of relatively few items to be very informative across most of the standard theta range (-4 to 4).
+
+
+## Step 4: Examine the fit of the GRM model
+
+We can examine the item fit using `mirt::itemfit()`. 
+```{r}
+itemfit(fit.grm)
+```
+The p-values are small for all items, suggesting poor fit to a GRM.
+
+## Step 5: Estimate Trait/Ability scores 
+
+Using the results of the GRM model, we can estimate the latent ability scores for each participant.
+
+```{r}
+theta.grm <- fscores(fit.grm)
+head(theta.grm)
+```
+
+We can also plot the density curve of the estimated ability scores:
+```{r}
+personDist(fit.grm)
+```
+  
+Again, this has mean of around 0 and standard distribution of around 1.
+  
+## Step 6: Fitting and checking relative fit with more constrainted model with all equal discrimination parameters.
+
+The constrained GRM model is fit to the data using a constraint in the model string.
+The format of this constraint is `"CONSTRAIN = (1-4, a1)"`, and other parameters can be constrained in a similar way.
+```{r}
+# fitting the GRM model
+modcons <- "F = 1 - 4
+            CONSTRAIN = (1 - 4, a1)"
+fit.grmcons <- mirt(df.pc, 
+                    model = modcons,
+                    itemtype = "graded",
+                    verbose = FALSE)
+
+# model coefficients
+coef.grmcons <- as_tibble(coef(fit.grmcons, simplify = TRUE)$items,
+                          rownames = "definition")
+coef.grmcons
+```
+
+Note here how the discrimination parameter is identical for all the items, even though the specific thresholds within each item differ. 
+
+Testing the relative fit of the two models.
+```{r}
+anova(fit.grmcons, fit.grm)
+```
+
+The test is significant, suggesting that the null hypothesis that the fit is the same is *rejected*. 
+The 4 additional discrimination parameters are worth the complexity. 
+Cool to see how each item functions differently from the others.
+
+# (Generalized) Partial Credit Model for Polytomous Items
+
+We use this alternative model for the same data. 
+
+## Step 1: Fit the Generalized Partial Credit Model
+
+The GPCM model is fit to the data using `itemtype = "gpcm"`. 
+```{r}
+# fitting the GRM model
+fit.gpcm <- mirt(df.pc, 
+                 model = modpoly,
+                 itemtype = "gpcm",
+                 verbose = FALSE)
+
+# model coefficients
+coef.gpcm <- as_tibble(coef(fit.gpcm, simplify = TRUE)$items,
+                       rownames = "definition")
+coef.gpcm
+```
+
+Notice here that the `d`s may be out of order due to the way GPCMs are fit.
+
+## Step 2: Plot Item Category Characteristic Curves 
+
+```{r}
+# note that tracePlot currently does not work for gpcm, so we use a hacky workaround by 
+# tricking it into thinking that this is a grm.
+fit.gpcm.plot <- fit.gpcm
+fit.gpcm.plot@Model$itemtype <- "graded"
+tracePlot(fit.gpcm.plot, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set1")
+```
+
+From this plot, we can see that the shape of the GPCM curves is different than that of the GRM curves.
+
+## Step 3: Plot Item Information Curves and Test Information Curve 
+
+```{r}
+itemInfoPlot(fit.gpcm, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set1")
+```
+
+Because the shape of the curves is different, the shape of the IICs is also different.
+
+We can also plot the information curve for the whole test. 
+
+```{r}
+testInfoPlot(fit.gpcm)
+```
+
+## Step 4: Examine the fit of the GPCM model
+
+```{r}
+itemfit(fit.gpcm)
+```
+
+The fit is still bad.
+
+## Step 5: Estimate Trait/Ability scores 
+
+```{r}
+theta.gpcm <- fscores(fit.gpcm)
+head(theta.gpcm)
+```
+
+We can also plot the density curve of the estimated ability scores:
+```{r}
+personDist(fit.gpcm)
+```
+  
+## Step 6: Fitting and checking relative fit with a more constrained model, with all equal discrimination parameters.
+
+Similarly, we can fit a GPCM with constrained discrimination.
+```{r}
+# fitting the GPCM model
+fit.gpcmcons <- mirt(df.pc, 
+                     model = modcons,
+                     itemtype = "gpcm",
+                     verbose = FALSE)
+
+# model coefficients
+coef.gpcmcons <- as_tibble(coef(fit.gpcmcons, simplify = TRUE)$items,
+                           rownames = "definition")
+coef.gpcmcons
+```
+
+Again, the discrimination parameter is constant across all items.
+
+Testing the relative fit of the models.
+```{r}
+anova(fit.gpcmcons, fit.gpcm)
+anova(fit.grmcons, fit.grm)
+```
+
+The test is significant, suggesting that the null hypothesis that the fit is the same is *rejected*. 
+The 4 additional discrimination parameters are worth the complexity. 
+We also can look at the AIC and BIC to compare across the GCPM and the GRM. 
+The GRM looks like it provides a tad better fit to the data. 
+
+# Summary
+This was a brief introduction to fitting 1PL (Rasch), 2PL, and 3PL models to a set of simulated data; and the GRM and GCPM to some empirical data. It was really fun to play with these models. They seem so easy!  
+
+**Be careful out there!**

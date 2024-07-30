@@ -292,31 +292,118 @@ uni_lemma_aoa <- read.csv("cleaned_items_aoa.csv")
 # Pivot into a wider dataframe which includes language, uni_lemma, and cleaned surface forms
 cleaned_uni_lemma_wider <- uni_lemma_aoa %>%
   dplyr::select(language, uni_lemma, aoa, cleaned_item) %>%
-  pivot_wider(names_from = language, values_from = aoa)
-#Create a data frame containing identical surface forms for European and Mexican Spanish
-European_Mexican_Same <- cleaned_uni_lemma_wider %>%
-  dplyr::select("uni_lemma", "cleaned_item", "Spanish (European)", "Spanish (Mexican)") %>%
-  na.omit()
-#Calculate the correlation between the AoA values of identical surface forms in the two dialects
-correlation_European_Mexican_same <- cor(European_Mexican_Same$`Spanish (European)`, European_Mexican_Same$`Spanish (Mexican)`)
-print(correlation_European_Mexican_same)
-#Create a data frame containing non-identical surface forms for European and Mexican Spanish
-European_Mexican_Different <- cleaned_uni_lemma_wider %>%
-  dplyr::select("uni_lemma", "cleaned_item", "Spanish (European)", "Spanish (Mexican)") %>%
-  filter(is.na(cleaned_uni_lemma_wider$`Spanish (European)`)| is.na(cleaned_uni_lemma_wider$`Spanish (Mexican)`))
-#Write this data frame to a CSV file, clean to remove NA values and match up AoA values with only one uni_lemma. Read back in
-European_Mexican_Different <- read.csv("E_M_DD.csv")
-#Calculate the correlation between the AoA values of non-identical surface forms in the two dialects
-correlation_European_Mexican_different <- cor(European_Mexican_Different$Spanish..European., European_Mexican_Different$Spanish..Mexican.)
-print(correlation_European_Mexican_different)
+  pivot_wider(names_from = language, values_from = cleaned_item, uni_lemma)
+# Select for just European Spanish and Mexican Spanish
+Eu_Mx <- cleaned_uni_lemma_wider %>% 
+  dplyr::select(uni_lemma, `Spanish (European)`, `Spanish (Mexican)`)
+#Join in AoA data
+clean_aoas_Eu_Mx <- clean_aoas %>%
+  dplyr::select(uni_lemma, `Spanish (European)`, `Spanish (Mexican)`) %>%
+  left_join(Eu_Mx, join_by(uni_lemma))
+# Filter for identical surface forms and calculate correlation
+Eu_Mx_Identical <- clean_aoas_Eu_Mx %>% 
+  filter(`Spanish (European).y` == `Spanish (Mexican).y`)
+# Calculate correlation of AoA values
+correlation_Eu_Mx_Identical <- cor(Eu_Mx_Identical$`Spanish (European).x`, Eu_Mx_Identical$`Spanish (Mexican).x`)
+# Filter for non-identical surface forms
+Eu_Mx_NonIdentical <- clean_aoas_Eu_Mx %>%
+  filter(`Spanish (European).y` != `Spanish (Mexican).y`)
+# Calculate correlation
+correlation_Eu_Mx_NonIdentical <- cor(Eu_Mx_NonIdentical$`Spanish (European).x`, Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
 ```
+
+t-test for AoA differences
+```{r}
+# Generate a data frame with all AoA and uni_lemma values
+uni_lemma_aoa_wider <- uni_lemma_aoa %>%
+  dplyr::select(language, uni_lemma, aoa, cleaned_item) %>%
+  pivot_wider(names_from = language, values_from = cleaned_item, uni_lemma)
+uni_lemma_aoa_master <- clean_aoas %>%
+  left_join(uni_lemma_aoa_wider, join_by(uni_lemma))
+# Filter to identical and nonidentical surface forms for all dialect pairings
+Eu_Ar_Identical <- uni_lemma_aoa_master %>%
+  filter(`Spanish (European).y` == `Spanish (Argentinian).y`)
+Eu_Ar_NonIdentical <- uni_lemma_aoa_master %>%
+  filter(`Spanish (European).y` != `Spanish (Argentinian).y`)
+
+Eu_Pr_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (European).y` == `Spanish (Peruvian).y`)
+Eu_Pr_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (European).y` != `Spanish (Peruvian).y`)
+
+Mx_Ar_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` == `Spanish (Argentinian).y`)
+Mx_Ar_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` != `Spanish (Argentinian).y`)
+
+Mx_Pr_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` == `Spanish (Peruvian).y`)
+Mx_Pr_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` != `Spanish (Peruvian).y`)
+
+Pr_Ar_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Peruvian).y` == `Spanish (Argentinian).y`)
+Pr_Ar_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Peruvian).y` != `Spanish (Argentinian).y`)
+# Generate vector of differences for each possible dialect pairing
+dif_Eu_Mx_Identical <- abs(Eu_Mx_Identical$`Spanish (European).x` - Eu_Mx_Identical$`Spanish (Mexican).x`)
+dif_Eu_Mx_NonIdentical <- abs(Eu_Mx_NonIdentical$`Spanish (European).x` - Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
+
+dif_Eu_Ar_Identical <- abs(Eu_Ar_Identical$`Spanish (European).x`- Eu_Ar_Identical$`Spanish (Argentinian).x`)
+dif_Eu_Ar_NonIdentical <- abs(Eu_Ar_NonIdentical$`Spanish (European).x` - Eu_Ar_NonIdentical$`Spanish (Argentinian).x`)
+
+dif_Eu_Pr_Identical <- abs(Eu_Pr_Identical$`Spanish (European).x` - Eu_Pr_Identical$`Spanish (Peruvian).x`)
+dif_Eu_Pr_NonIdentical <- abs(Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_Nonidentical$`Spanish (Peruvian).x`)
+
+dif_Mx_Ar_Identical <- abs(Mx_Ar_Identical$`Spanish (Mexican).x` - Mx_Ar_Identical$`Spanish (Argentinian).x`)
+dif_Mx_Ar_NonIdentical <- abs(Mx_Ar_NonIdentical$`Spanish (Mexican).x` - Mx_Ar_NonIdentical$`Spanish (Argentinian).x`)
+
+dif_Mx_Pr_Identical <- abs(Mx_Pr_Identical$`Spanish (Mexican).x` - Mx_Pr_Identical$`Spanish (Peruvian).x`)
+dif_Mx_Pr_NonIdentical <- abs(Mx_Pr_NonIdentical$`Spanish (Mexican).x` - Mx_Pr_NonIdentical$`Spanish (Peruvian).x`)
+
+dif_Pr_Ar_Identical <- abs(Pr_Ar_Identical$`Spanish (Peruvian).x` - Pr_Ar_Identical$`Spanish (Argentinian).x`)
+dif_Pr_Ar_NonIdentical <- abs(Pr_Ar_NonIdentical$`Spanish (Peruvian).x` - Pr_Ar_NonIdentical$`Spanish (Argentinian).x`)
+
+# Perform a t-test for these differences
+t.test(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)
+
+t.test(dif_Eu_Ar_Identical, dif_Eu_Ar_NonIdentical)
+
+t.test(dif_Eu_Pr_Identical, dif_Eu_Pr_NonIdentical)
+
+t.test(dif_Mx_Ar_Identical, dif_Mx_Ar_NonIdentical)
+
+t.test(dif_Mx_Pr_Identical, dif_Mx_Pr_NonIdentical)
+
+t.test(dif_Pr_Ar_Identical, dif_Pr_Ar_NonIdentical)
+
+# Make a data frame of p-values
+Identical_NonIdentical_p_values <- data.frame(
+  Eu_Mx = c(0.03656),
+  Eu_Ar = c(0.08711),
+  Eu_Pr = c(0.9932),
+  Mx_Ar = c(0.5462),
+  Mx_Pr = c(0.1664),
+  Pr_Ar = c(0.1011)
+)
+```
+
+
+
 ## Step 1: Fit the 2PL model
 We fit the 2PL model using `itemtype = "2PL"`.
 ```{r}
-fit.2pl <- mirt(df.data,
+modstr <- glue("F = 1 - {ncol(eu_ws)}")
+eu_ws_cleaned <- dplyr::select(eu_ws, comprehension, production)
+Spanish_European_2PL <- mirt(eu_ws_cleaned,
                 model = modstr,
                 itemtype = "2PL",
                 verbose = FALSE)
+
+# model coefficients
+coef.2pl_Spanish_European_2PL <- as_tibble(coef(Spanish_European_2PL, simplify = TRUE)$items
+                      rownames = "definition")
+```
 
 # model coefficients
 coef.2pl <- as_tibble(coef(fit.2pl, simplify = TRUE)$items,

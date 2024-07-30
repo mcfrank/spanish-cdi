@@ -1,0 +1,894 @@
+,language,item_definition,uni_lemma,aoa,cleaned_item
+1,Spanish (Argentinian),después,after,29.7440587321831,después
+2,Spanish (European),después,after,31.2534406533349,después
+3,Spanish (Mexican),después,after,32.2594087389761,después
+4,Spanish (Peruvian),después/luego,after,30.7477359547922,después
+5,Spanish (Argentinian),otro_otra_vez,again,25.6709745435839,otra vez
+6,Spanish (European),otra vez,again,25.8354056992095,otra vez
+7,Spanish (Mexican),otro/otra vez,again,26.2905461584957,otra vez
+8,Spanish (Peruvian),otra vez,again,23.5306996408616,otra vez
+9,Spanish (Argentinian),avión,airplane,23.2177640115172,avión
+10,Spanish (European),avión,airplane,21.6210041696022,avión
+11,Spanish (Mexican),avión,airplane,21.2363124099272,avión
+12,Spanish (Peruvian),avión,airplane,23.7097737632048,avión
+13,Spanish (Argentinian),todo,all,28.6844562272395,todo
+14,Spanish (European),todas/os,all,29.4961568417256,todos
+15,Spanish (Mexican),todo,all,28.6692824200392,todo
+16,Spanish (Peruvian),todos(as),all,31.0922343722732,todos
+17,Spanish (Argentinian),ya,already,28.1510921670573,ya
+18,Spanish (European),ya,already,22.8810513104198,ya
+19,Spanish (Mexican),ya,already,12.4549878032153,ya
+20,Spanish (Peruvian),ya,already,17.7751724889215,ya
+21,Spanish (Argentinian),y,and,28.1508781658212,y
+22,Spanish (European),y,and,27.7546416556357,y
+23,Spanish (Mexican),y,and,30.6989593598798,y
+24,Spanish (Peruvian),y,and,28.0305514243732,y
+25,Spanish (Argentinian),enojado,angry,28.091869910394,enojado
+26,Spanish (European),enfadado,angry,26.7132989818862,enfadado
+27,Spanish (Mexican),enojado,angry,32.3784837817325,enojado
+28,Spanish (Peruvian),molesto/enojado/asado/enfadado,angry,29.264744203504,enojado
+29,Spanish (Argentinian),animal,animal,30.3813866154411,animal
+30,Spanish (European),animal,animal,28.446482650163,animal
+31,Spanish (Mexican),animal,animal,28.4549695572432,animal
+32,Spanish (Peruvian),animal,animal,29.8185559773501,animal
+33,Spanish (Argentinian),hormiga,ant,27.9204914949176,hormiga
+34,Spanish (European),hormiga,ant,25.7694433784406,hormiga
+35,Spanish (Mexican),hormiga,ant,27.1030314646943,hormiga
+36,Spanish (Peruvian),hormiga,ant,27.802645537064,hormiga
+37,Spanish (Argentinian),manzana,apple,23.6970021136547,manzana
+38,Spanish (European),manzana,apple,23.8822159776712,manzana
+39,Spanish (Mexican),manzana,apple,22.6884415341185,manzana
+40,Spanish (Peruvian),manzana,apple,23.889451575607,manzana
+41,Spanish (Argentinian),brazo,arm,25.9980057022718,brazo
+42,Spanish (European),brazos,arm,23.3500435551067,brazo
+43,Spanish (Mexican),brazo,arm,26.4820091431016,brazo
+44,Spanish (Peruvian),brazo(s),arm,25.1710078268199,brazo
+45,Spanish (Argentinian),niñera,babysitter,32.3920152955378,niñera
+46,Spanish (European),tata,babysitter,24.7601994984906,tata
+48,Spanish (Peruvian),nana/niñera/mama,babysitter,30.7482991503188,niñera
+49,Spanish (Argentinian),malo,bad,25.9731080835754,malo
+50,Spanish (European),malo,bad,22.3168856593828,malo
+51,Spanish (Mexican),malo,bad,30.1715367522661,malo
+52,Spanish (Peruvian),malo,bad,26.7313037597989,malo
+53,Spanish (Argentinian),Globo,balloon,21.868951479813,globo
+54,Spanish (European),globo,balloon,20.8145917495439,globo
+55,Spanish (Mexican),globo/bomba,balloon,14.5166612817429,globo
+56,Spanish (Peruvian),globo,balloon,20.4884570012903,globo
+57,Spanish (Argentinian),bañadera,bathtub,29.1519754650614,bañadera
+58,Spanish (European),bañera,bathtub,23.5376474400451,bañera
+59,Spanish (Mexican),tina,bathtub,31.1976971325678,tina
+60,Spanish (Peruvian),tina,bathtub,29.5360220988053,tina
+61,Spanish (Argentinian),playa,beach,28.9938322174898,playa
+62,Spanish (European),playa,beach,25.4744178671243,playa
+63,Spanish (Mexican),playa,beach,29.553612321873,playa
+64,Spanish (Peruvian),playa,beach,29.0023624162795,playa
+65,Spanish (Argentinian),barba,beard,30.3811669867738,barba
+66,Spanish (European),barba,beard,27.4237710436237,barba
+67,Spanish (Mexican),barba,beard,37.4950222996194,barba
+68,Spanish (Peruvian),barba,beard,30.7478816504104,barba
+69,Spanish (Argentinian),cama,bed,22.6902550001356,cama
+70,Spanish (European),cama,bed,21.7165691080507,cama
+71,Spanish (Mexican),cama,bed,20.8144652595647,cama
+72,Spanish (Peruvian),cama,bed,22.4628832998402,cama
+73,Spanish (Argentinian),abeja,bee,29.2156981267955,abeja
+74,Spanish (European),abeja,bee,29.0205924183794,abeja
+75,Spanish (Mexican),abeja,bee,34.8322922075503,abeja
+76,Spanish (Peruvian),abeja,bee,27.8024168855135,abeja
+77,Spanish (Argentinian),ombligo_pupo,belly button,23.8412127460541,ombligo
+78,Spanish (European),ombligo,belly button,25.3125304167893,ombligo
+79,Spanish (Mexican),ombligo,belly button,27.4351975063735,ombligo
+80,Spanish (Peruvian),ombligo,belly button,26.7312668169769,ombligo
+81,Spanish (Argentinian),entre,between,37.1948191624375,entre
+82,Spanish (European),entre,between,35.4251428095599,entre
+83,Spanish (Mexican),entre,between,34.7817955623271,entre
+84,Spanish (Peruvian),entre,between,39.9995702053952,entre
+85,Spanish (Argentinian),babero,bib,30.8014155412748,babero
+86,Spanish (European),babero,bib,24.1334954194935,babero
+87,Spanish (Mexican),babero,bib,33.6627019541547,babero
+88,Spanish (Peruvian),babero,bib,30.4226871199257,babero
+89,Spanish (Argentinian),bicicleta/bici,bicycle,25.6960485619295,bicicleta
+90,Spanish (European),bici,bicycle,22.3797435915708,bici
+91,Spanish (Mexican),bicicleta,bicycle,25.9818334209021,bicicleta
+92,Spanish (Peruvian),bici,bicycle,29.8192537427868,bici
+93,Spanish (Argentinian),grande,big,27.8915944987752,grande
+94,Spanish (European),grande,big,23.2875669457013,grande
+95,Spanish (Mexican),grande,big,27.4250026606137,grande
+96,Spanish (Peruvian),grande,big,27.1482571717591,grande
+97,Spanish (Argentinian),pájaro,bird,25.8472221187065,pájaro
+98,Spanish (European),pájaro,bird,22.7873169017996,pájaro
+99,Spanish (Mexican),pájaro,bird,23.9259678947694,pájaro
+100,Spanish (Peruvian),pájaro,bird,27.8024168850671,pájaro
+101,Spanish (Argentinian),morder,bite,28.8684437203683,morder
+102,Spanish (European),morder,bite,26.302946364058,morder
+103,Spanish (Mexican),morder,bite,29.7165158008192,morder
+104,Spanish (Peruvian),morder,bite,29.8186629995045,morder
+105,Spanish (Argentinian),negro,black,29.3440029289614,negro
+106,Spanish (European),negro,black,28.4070075849017,negro
+107,Spanish (Mexican),negro,black,30.2701913604705,negro
+108,Spanish (Peruvian),negro,black,28.7487930789689,negro
+109,Spanish (Argentinian),azul,blue,25.3966154310126,azul
+110,Spanish (European),azul,blue,23.037569055218,azul
+111,Spanish (Mexican),azul,blue,26.9110293368574,azul
+112,Spanish (Peruvian),azul,blue,25.170985503071,azul
+113,Spanish (Argentinian),barco,boat,27.3903520052341,barco
+114,Spanish (European),barco,boat,24.4487124764066,barco
+115,Spanish (Mexican),barco,boat,28.7802717528357,barco
+116,Spanish (Peruvian),barco,boat,27.8024048776517,barco
+117,Spanish (Argentinian),Libro_cuento,book,25.5213289003886,libro
+118,Spanish (European),cuento/libro,book,21.3650822874632,libro
+119,Spanish (Mexican),libro,book,25.6637519657847,libro
+120,Spanish (Peruvian),cuento/libro,book,25.5486498644294,libro
+121,Spanish (Argentinian),pan,bread,19.4584988062969,pan
+122,Spanish (European),pan,bread,15.3539957165161,pan
+123,Spanish (Mexican),pan,bread,4.33931043954301,pan
+124,Spanish (Peruvian),pan,bread,16.6782148561226,pan
+125,Spanish (Argentinian),romper,break,27.0648556679612,romper
+126,Spanish (European),romper(se),break,22.6934841995696,romper(se)
+127,Spanish (Mexican),romper,break,28.6416945733466,romper
+128,Spanish (Peruvian),romper(se),break,28.5027242930626,romper(se)
+129,Spanish (Argentinian),desayunar,breakfast (action),31.1201082571977,desayunar
+130,Spanish (European),desayunar,breakfast (action),26.5758931721132,desayunar
+131,Spanish (Mexican),desayunar,breakfast (action),33.2936703871486,desayunar
+132,Spanish (Peruvian),desayunar/tomar desayuno,breakfast (action),29.5361069547244,desayunar
+133,Spanish (Argentinian),traer_se,bring,30.381351859385,traer(se)
+134,Spanish (European),traer,bring,26.8528859176749,traer
+135,Spanish (Mexican),traer(se),bring,33.6463842201884,traer(se)
+136,Spanish (Peruvian),traer,bring,29.5364982763204,traer
+137,Spanish (Argentinian),roto,broken,27.3077358174507,roto
+138,Spanish (European),roto,broken,22.0332691288589,roto
+139,Spanish (Mexican),roto,broken,30.8223581993184,roto
+140,Spanish (Peruvian),roto,broken,27.3624055239301,roto
+141,Spanish (Argentinian),escoba,broom,28.325532528865,escoba
+142,Spanish (European),escoba,broom,27.3146652599829,escoba
+143,Spanish (Mexican),escoba,broom,26.9934304069388,escoba
+144,Spanish (Peruvian),escoba,broom,27.8028150027505,escoba
+145,Spanish (Argentinian),hermano,brother,27.2551329521725,hermano
+146,Spanish (European),hermano,brother,27.718252486585,hermano
+147,Spanish (Mexican),hermano,brother,32.2550354205201,hermano
+148,Spanish (Peruvian),hermano(a),brother,26.1290341515806,hermano
+149,Spanish (Argentinian),cepillo,brush (object),26.878967670964,cepillo
+150,Spanish (European),cepillo,brush (object),24.7024358388717,cepillo
+151,Spanish (Mexican),cepillo,brush (object),23.5580429016693,cepillo
+152,Spanish (Peruvian),cepillo/escobilla (de pelo),brush (object),31.4591794263693,cepillo
+153,Spanish (Argentinian),bicho,bug,26.3304687996282,bicho
+154,Spanish (European),bicho,bug,23.882214525172,bicho
+155,Spanish (Mexican),bicho,bug,45.4064709457794,bicho
+156,Spanish (Peruvian),bicho,bug,31.8519387759854,bicho
+157,Spanish (Argentinian),conejo,bunny,27.1189234919109,conejo
+158,Spanish (European),conejo,bunny,24.4806534469895,conejo
+159,Spanish (Mexican),conejo,bunny,27.304766260782,conejo
+160,Spanish (Peruvian),conejo,bunny,25.1709966620695,conejo
+161,Spanish (Argentinian),pero,but,31.1608534041712,pero
+162,Spanish (European),pero,but,31.607690050426,pero
+163,Spanish (Mexican),pero,but,31.7848223672162,pero
+164,Spanish (Peruvian),pero,but,33.8439509960918,pero
+165,Spanish (Argentinian),cola_culo,butt,22.9781325999215,culo
+166,Spanish (European),culo,butt,21.0104767016743,culo
+167,Spanish (Mexican),nalgas,butt,28.2587404791629,nalgas
+168,Spanish (Peruvian),poto,butt,22.9959347016803,poto
+169,Spanish (Argentinian),botón,button,29.8130685882606,botón
+170,Spanish (European),botón,button,25.1508448749497,botón
+171,Spanish (Mexican),botón,button,29.6641818141708,botón
+172,Spanish (Peruvian),botón,button,28.0305386037889,botón
+173,Spanish (Argentinian),comprar,buy,28.1785354878466,comprar
+174,Spanish (European),comprar,buy,26.9925523222471,comprar
+175,Spanish (Mexican),comprar,buy,29.2486670880132,comprar
+176,Spanish (Peruvian),comprar,buy,29.0023007689685,comprar
+177,Spanish (Argentinian),caramelo,candy,24.1053646558104,caramelo
+178,Spanish (European),caramelo,candy,22.6935171790384,caramelo
+179,Spanish (Mexican),dulce,candy,21.8115821738671,dulce
+180,Spanish (Peruvian),caramelo,candy,26.938226553261,caramelo
+181,Spanish (Argentinian),auto,car,19.0499252838445,auto
+182,Spanish (European),coche,car,19.1157092204589,coche
+183,Spanish (Mexican),carro/coche,car,16.7019730478527,carro
+184,Spanish (Peruvian),carro/auto,car,21.2137411617422,carro
+185,Spanish (Argentinian),zanahoria,carrot,29.2477377577975,zanahoria
+186,Spanish (European),zanahoria,carrot,28.3281408539744,zanahoria
+187,Spanish (Mexican),zanahoria,carrot,30.9950608861413,zanahoria
+188,Spanish (Peruvian),zanahoria,carrot,28.7484702139592,zanahoria
+189,Spanish (Argentinian),gato,cat,21.1067456761587,gato
+190,Spanish (European),gato,cat,20.3532126971134,gato
+191,Spanish (Mexican),gato,cat,18.6303680144592,gato
+192,Spanish (Peruvian),gato,cat,20.8526491351837,gato
+193,Spanish (Argentinian),cereales,cereal,29.1516651611581,cereal
+194,Spanish (European),cereales,cereal,27.791939541437,cereal
+195,Spanish (Mexican),cereal,cereal,28.9706153027134,cereal
+196,Spanish (Peruvian),cereal,cereal,28.5025143908839,cereal
+197,Spanish (Argentinian),queso,cheese,25.3473863484659,queso
+198,Spanish (European),queso (quesitos),cheese,23.5064477454442,queso
+199,Spanish (Mexican),queso,cheese,23.8717051182958,queso
+200,Spanish (Peruvian),queso,cheese,26.5279893201681,queso
+201,Spanish (Argentinian),pollo,chicken (food),25.2732798091291,pollo
+202,Spanish (European),pollo,chicken (food),24.4488855659359,pollo
+203,Spanish (Mexican),pollo,chicken (food),20.8361354900783,pollo
+204,Spanish (Peruvian),pollo,chicken (food),23.3521336548416,pollo
+205,Spanish (Argentinian),chocolate,chocolate,25.7961825988312,chocolate
+206,Spanish (European),chocolate,chocolate,22.1279723355529,chocolate
+207,Spanish (Mexican),chocolate,chocolate,23.1603255209849,chocolate
+208,Spanish (Peruvian),chocolate,chocolate,26.1290806279444,chocolate
+209,Spanish (Argentinian),cerrar,close,27.9199945761314,cerrar
+210,Spanish (European),cerrar,close,23.9134217505116,cerrar
+211,Spanish (Mexican),cerrar,close,27.6237783093455,cerrar
+212,Spanish (Peruvian),cerrar,close,26.3273718618693,cerrar
+213,Spanish (Argentinian),ropa,clothes,25.9224883714545,ropa
+214,Spanish (European),ropa,clothes,26.4730862603625,ropa
+215,Spanish (Mexican),ropa,clothes,25.7846591342905,ropa
+216,Spanish (Peruvian),ropa,clothes,25.7401494116453,ropa
+217,Spanish (Argentinian),nube,cloud,27.3631336409178,nube
+218,Spanish (European),nube,cloud,25.6050091658279,nube
+219,Spanish (Mexican),nube,cloud,30.3503143868985,nube
+220,Spanish (Peruvian),nube,cloud,29.5360051315259,nube
+221,Spanish (Argentinian),payaso,clown,30.0912982510271,payaso
+222,Spanish (European),payaso,clown,25.150480826633,payaso
+223,Spanish (Mexican),payaso,clown,28.6749371649316,payaso
+224,Spanish (Peruvian),payaso,clown,29.0023469860723,payaso
+225,Spanish (Argentinian),qui-qui-ri-quí,cockadoodledoo,27.978205908649,quiquiriquí
+226,Spanish (European),Quiquiriquí,cockadoodledoo,24.7355204616422,quiquiriquí
+227,Spanish (Mexican),quiquiriquí,cockadoodledoo,33.3510827994203,quiquiriquí
+228,Spanish (Peruvian),quiquiriquí (gallo),cockadoodledoo,24.6155065017032,quiquiriquí
+229,Spanish (Argentinian),frío,cold,25.695622101067,frío
+230,Spanish (European),frío,cold,22.4426428897401,frío
+231,Spanish (Mexican),frío,cold,23.82111206548,frío
+232,Spanish (Peruvian),frío,cold,25.933396482883,frío
+233,Spanish (Argentinian),peinar_se,comb (action),27.5554432453443,peinar(se)
+234,Spanish (European),peinar(se),comb (action),23.6315089553187,peinar(se)
+235,Spanish (Mexican),peinar(se),comb (action),27.629842528286,peinar(se)
+236,Spanish (Peruvian),peinar(se),comb (action),27.3621631000315,peinar(se)
+237,Spanish (Argentinian),peine,comb (object),26.2018967324231,peine
+238,Spanish (European),peine,comb (object),23.4751519795154,peine
+239,Spanish (Mexican),peine,comb (object),26.8672831050924,peine
+240,Spanish (Peruvian),peine,comb (object),24.9847044009845,peine
+241,Spanish (Argentinian),venir_se,come,26.6688609833713,venir(se)
+242,Spanish (European),"venir [ven, vente]",come,21.906743256917,venir
+243,Spanish (Mexican),venir(se),come,30.5988423553225,venir(se)
+244,Spanish (Peruvian),venir [ven/vente],come,24.6154800121624,venir
+245,Spanish (Argentinian),cocinar,cook,29.2147923257102,cocinar
+246,Spanish (European),cocinar,cook,30.4452539509061,cocinar
+247,Spanish (Mexican),cocinar,cook,31.1893103771076,cocinar
+248,Spanish (Peruvian),cocinar,cook,29.2645495553778,cocinar
+249,Spanish (Argentinian),tapar,cover (action),29.2155146570417,tapar
+250,Spanish (European),tapar,cover (action),25.605471137367,tapar
+251,Spanish (Mexican),tapar,cover (action),30.5498740457536,tapar
+252,Spanish (Peruvian),tapar,cover (action),28.0301945751261,tapar
+253,Spanish (Argentinian),vaca,cow,21.7225513997211,vaca
+254,Spanish (European),vaca,cow,21.2686077187733,vaca
+255,Spanish (Mexican),vaca,cow,22.5550586648656,vaca
+256,Spanish (Peruvian),vaca,cow,22.9959398224625,vaca
+257,Spanish (Argentinian),cocodrilo,crocodile,27.6383053718211,cocodrilo
+258,Spanish (European),cocodrilo,crocodile,25.9353557698484,cocodrilo
+259,Spanish (Mexican),cocodrilo,crocodile,29.4164502342077,cocodrilo
+260,Spanish (Peruvian),cocodrilo,crocodile,27.3619341539205,cocodrilo
+261,Spanish (Argentinian),llorar,cry,26.2016633855213,llorar
+262,Spanish (European),llorar,cry,24.4170161136702,llorar
+263,Spanish (Mexican),llorar,cry,26.1188943154643,llorar
+264,Spanish (Peruvian),llorar,cry,27.1479681047281,llorar
+265,Spanish (Argentinian),cortar,cut,30.3076154840548,cortar
+266,Spanish (European),cortar,cut,27.8283605630595,cortar
+267,Spanish (Mexican),cortar,cut,29.3350109876263,cortar
+268,Spanish (Peruvian),cortar,cut,31.8518897208487,cortar
+269,Spanish (Argentinian),papá_papi,daddy,14.3573562143747,papá
+270,Spanish (European),papá (papi),daddy,10.8373905736982,papá
+272,Spanish (Peruvian),papá/papi,daddy,7.94216989110691,papá
+273,Spanish (Argentinian),bailar,dance,24.734523885024,bailar
+274,Spanish (European),bailar,dance,23.5376829730596,bailar
+275,Spanish (Mexican),bailar,dance,24.9649396151326,bailar
+276,Spanish (Peruvian),bailar,dance,26.3271312303515,bailar
+277,Spanish (Argentinian),día,day,30.5314902814214,día
+278,Spanish (European),día,day,27.9421801263067,día
+279,Spanish (Mexican),día,day,34.4972249524722,día
+280,Spanish (Peruvian),día,day,28.5025283615161,día
+281,Spanish (Argentinian),pañales,diaper,23.0260420257829,pañal
+282,Spanish (European),pañal,diaper,21.7483213427104,pañal
+283,Spanish (Mexican),pañal,diaper,19.2090341865204,pañal
+284,Spanish (Peruvian),pañal,diaper,23.5307017109208,pañal
+285,Spanish (Argentinian),sucio,dirty,26.5629984177763,sucio
+286,Spanish (European),sucio,dirty,24.133383750065,sucio
+287,Spanish (Mexican),sucio,dirty,25.8489158315544,sucio
+288,Spanish (Peruvian),cochino/sucio/embarrado,dirty,25.9336750596477,sucio
+289,Spanish (Argentinian),hacer,do,30.5690152976994,hacer
+290,Spanish (European),"hacer [haz, haces...]",do,27.1702207090821,hacer
+291,Spanish (Mexican),hacer,do,32.1288772511304,hacer
+292,Spanish (Peruvian),hacer [haz/haces],do,29.536652041486,hacer
+293,Spanish (Argentinian),perro,dog,20.6046437760711,perro
+294,Spanish (European),perro,dog,20.152260140721,perro
+295,Spanish (Mexican),perro,dog,14.5727045190426,perro
+296,Spanish (Peruvian),perro,dog,20.6708470844386,perro
+297,Spanish (Argentinian),muñeca,doll,26.3567804583118,muñeca
+298,Spanish (European),muñeca,doll,23.2250854323067,muñeca
+299,Spanish (Mexican),muñeca,doll,25.7275041660527,muñeca
+300,Spanish (Peruvian),muñeca,doll,26.5280246947916,muñeca
+301,Spanish (Argentinian),burro,donkey,31.2035925870923,burro
+302,Spanish (European),burro,donkey,26.7492981214777,burro
+303,Spanish (Mexican),burro,donkey,29.6377101794955,burro
+304,Spanish (Peruvian),burro,donkey,29.0025632346488,burro
+305,Spanish (Argentinian),puerta,door,25.2240509236794,puerta
+306,Spanish (European),puerta,door,22.4426486927461,puerta
+307,Spanish (Mexican),puerta,door,23.3428328773333,puerta
+308,Spanish (Peruvian),puerta,door,24.7993680356561,puerta
+309,Spanish (Argentinian),dibujar,draw,25.2239281368467,dibujar
+310,Spanish (European),dibujar,draw,25.344487793967,dibujar
+311,Spanish (Mexican),dibujar,draw,30.0025944072587,dibujar
+312,Spanish (Peruvian),dibujar,draw,28.0301439386992,dibujar
+313,Spanish (Argentinian),vestido,dress (object),29.676330159533,vestido
+314,Spanish (European),vestido,dress (object),28.3675050477383,vestido
+315,Spanish (Mexican),vestido,dress (object),30.3391483501902,vestido
+316,Spanish (Peruvian),vestido,dress (object),30.1138838836892,vestido
+317,Spanish (Argentinian),tambor,drum (object),29.8822160691166,tambor
+318,Spanish (European),tambor,drum (object),24.4489742117325,tambor
+319,Spanish (Mexican),tambor,drum (object),34.796569560731,tambor
+320,Spanish (Peruvian),tambor,drum (object),28.2629898001642,tambor
+321,Spanish (Argentinian),pato,duck,22.7622114498429,pato
+322,Spanish (European),pato,duck,21.2041360654454,pato
+323,Spanish (Mexican),pato,duck,21.5120275583012,pato
+324,Spanish (Peruvian),pato,duck,21.2137361891537,pato
+325,Spanish (Argentinian),oreja,ear,25.520891943419,oreja
+326,Spanish (European),oreja/s,ear,22.5994870012848,oreja
+327,Spanish (Mexican),oreja,ear,23.5756271931959,oreja
+328,Spanish (Peruvian),oreja(s),ear,23.7097713229545,oreja
+329,Spanish (Argentinian),aros,earring,30.5313910891529,aros
+330,Spanish (European),pendientes,earring,26.4056397643794,pendientes
+331,Spanish (Mexican),aretes,earring,32.4000184093164,aretes
+332,Spanish (Peruvian),arete(s),earring,26.528069030094,aretes
+333,Spanish (Argentinian),huevo,egg,25.0274129440924,huevo
+334,Spanish (European),huevo,egg,24.7343781386519,huevo
+335,Spanish (Mexican),huevo,egg,20.0959082696237,huevo
+336,Spanish (Peruvian),huevo,egg,20.8526110843872,huevo
+337,Spanish (Argentinian),elefante,elephant,25.002884748173,elefante
+338,Spanish (European),elefante,elephant,22.975014228063,elefante
+339,Spanish (Mexican),elefante,elephant,25.0410789583936,elefante
+340,Spanish (Peruvian),elefante,elephant,24.4325894812742,elefante
+341,Spanish (Argentinian),ojos,eye,22.2324995811787,ojos
+342,Spanish (European),ojos,eye,20.3866777693814,ojos
+343,Spanish (Mexican),ojos,eye,20.5942646212559,ojos
+344,Spanish (Peruvian),ojo(s),eye,21.3934335930887,ojos
+345,Spanish (Argentinian),cara,face,25.6707604358561,cara
+346,Spanish (European),cara,face,22.1281425052368,cara
+347,Spanish (Mexican),cara,face,23.8173269164952,cara
+348,Spanish (Peruvian),cara,face,25.3589568184469,cara
+349,Spanish (Argentinian),caer_se,fall,26.2790265742798,caer(se)
+350,Spanish (European),caer(se),fall,22.7560661152245,caer(se)
+351,Spanish (Mexican),caer(se),fall,25.3239780801793,caer(se)
+352,Spanish (Peruvian),caer(se),fall,25.3589987981809,caer(se)
+353,Spanish (Argentinian),familia,family,32.491245988025,familia
+354,Spanish (European),familia,family,32.9871182244659,familia
+355,Spanish (Mexican),familia,family,31.418994790884,familia
+356,Spanish (Peruvian),familia,family,31.0917733970458,familia
+357,Spanish (Argentinian),dedo,finger,23.6490548253156,dedo
+358,Spanish (European),dedo/s,finger,22.3798899566819,dedo
+359,Spanish (Mexican),dedo,finger,21.9349620597884,dedo
+360,Spanish (Peruvian),dedo(s),finger,24.6153620876703,dedo
+361,Spanish (Argentinian),pescado_pez,fish (animal),26.6941462371809,pez
+362,Spanish (European),pez,fish (animal),21.7480264226146,pez
+363,Spanish (Mexican),pescado,fish (animal),27.5402882145478,pescado
+364,Spanish (Peruvian),pescado/pez,fish (animal),25.1710694858512,pez
+365,Spanish (Argentinian),pescado,fish (food),30.5304966060022,pescado
+366,Spanish (European),pescado,fish (food),25.6705361904655,pescado
+367,Spanish (Mexican),pescado (food_drink),fish (food),29.4712756171901,pescado
+368,Spanish (Peruvian),pescado,fish (food),27.362053820116,pescado
+369,Spanish (Argentinian),flor,flower,24.2741891030487,flor
+370,Spanish (European),flor,flower,22.505330493304,flor
+371,Spanish (Mexican),flor,flower,24.328940917836,flor
+372,Spanish (Peruvian),flor,flower,25.9336454861965,flor
+373,Spanish (Argentinian),pies.pata,foot,22.8341814853648,pies
+374,Spanish (European),pié/s,foot,19.8472299814127,pies
+375,Spanish (Mexican),pies,foot,20.7794728471478,pies
+376,Spanish (Peruvian),pie(s),foot,21.7511542623355,pies
+377,Spanish (Argentinian),tenedor,fork,27.0915371396,tenedor
+378,Spanish (European),tenedor,fork,23.6314899018305,tenedor
+379,Spanish (Mexican),tenedor,fork,30.0249662654449,tenedor
+380,Spanish (Peruvian),tenedor,fork,28.2632684382262,tenedor
+381,Spanish (Argentinian),rana,frog,29.0573084869761,rana
+382,Spanish (European),rana,frog,24.7029058212323,rana
+383,Spanish (Mexican),rana,frog,29.3143215602709,rana
+384,Spanish (Peruvian),rana,frog,26.129244221731,rana
+385,Spanish (Argentinian),lleno,full,32.6468815211724,lleno
+386,Spanish (European),lleno,full,30.2944770033946,lleno
+387,Spanish (Mexican),lleno,full,30.8808553953134,lleno
+388,Spanish (Peruvian),lleno,full,31.8516936361312,lleno
+389,Spanish (Argentinian),cochera_garage,garage,34.111664772225,cochera
+390,Spanish (European),garaje/cochera,garage,28.4469254030596,cochera
+391,Spanish (Mexican),cochera/garage,garage,31.8617048463518,cochera
+392,Spanish (Peruvian),garaje/cochera,garage,34.5190307502503,cochera
+393,Spanish (Argentinian),jirafa,giraffe,27.8920018910078,jirafa
+394,Spanish (European),jirafa,giraffe,25.6708235139489,jirafa
+395,Spanish (Mexican),jirafa,giraffe,29.7262218776079,jirafa
+396,Spanish (Peruvian),jirafa,giraffe,26.3273969749191,jirafa
+397,Spanish (Argentinian),anteojos_lentes,glasses,27.4999495782359,lentes
+398,Spanish (European),gafas,glasses,23.287574016859,gafas
+399,Spanish (Mexican),lentes,glasses,27.1697606597076,lentes
+400,Spanish (Peruvian),anteojos/lentes,glasses,26.9382265586969,lentes
+401,Spanish (Argentinian),guantes,glove,30.4559200089543,guantes
+402,Spanish (European),guantes,glove,25.572452042733,guantes
+403,Spanish (Mexican),guantes,glove,33.1212088426964,guantes
+404,Spanish (Peruvian),guante(s),glove,31.0921683978396,guantes
+405,Spanish (Argentinian),buenos_días,good morning,28.807483032538,buenos días
+406,Spanish (European),buenos días/noches,good morning,25.2475857173802,buenos días
+407,Spanish (Mexican),buenos días,good morning,28.1378825303369,buenos días
+408,Spanish (Peruvian),buenos días/buenas noches,good morning,27.1481949550138,buenos días
+409,Spanish (Argentinian),abuela,grandma,17.6785912090024,abuela
+410,Spanish (European),abuela (yaya),grandma,15.9165663890781,abuela
+411,Spanish (Mexican),abuela,grandma,16.4868856809718,abuela
+412,Spanish (Peruvian),abuela/mamama,grandma,20.4881892795716,abuela
+413,Spanish (Argentinian),abuelo,grandpa,20.1701513519381,abuelo
+414,Spanish (European),abuelo (yayo),grandpa,17.7613573101835,abuelo
+415,Spanish (Mexican),abuelo,grandpa,20.2565710756985,abuelo
+416,Spanish (Peruvian),abuelo/papapa,grandpa,22.6405146202682,abuelo
+417,Spanish (Argentinian),uvas,grapes,28.0062302759529,uvas
+418,Spanish (European),uvas,grapes,26.854201143624,uvas
+419,Spanish (Mexican),uvas,grapes,24.4419976079089,uvas
+420,Spanish (Peruvian),uva(s),grapes,26.5281224128095,uvas
+421,Spanish (Argentinian),pasto,grass,26.6415960811556,pasto
+422,Spanish (European),hierba/césped,grass,28.4069719489434,césped
+423,Spanish (Mexican),pasto,grass,31.1140536194255,pasto
+424,Spanish (Peruvian),pasto/grass/césped,grass,30.7481736277502,césped
+425,Spanish (Argentinian),verde,green,26.8515009398058,verde
+426,Spanish (European),verde,green,24.9578570205584,verde
+427,Spanish (Mexican),verde,green,29.1064352565965,verde
+428,Spanish (Peruvian),verde,green,26.9381771887153,verde
+429,Spanish (Argentinian),jamón,ham,29.6090100848228,jamón
+430,Spanish (European),jamón (york),ham,22.9437357546185,jamón
+431,Spanish (Mexican),jamón,ham,25.9659911125329,jamón
+432,Spanish (Peruvian),jamón,ham,31.0919707750871,jamón
+433,Spanish (Argentinian),martillo,hammer,31.903506982708,martillo
+434,Spanish (European),martillo,hammer,29.1896345191393,martillo
+435,Spanish (Mexican),martillo,hammer,37.1470953361249,martillo
+436,Spanish (Peruvian),martillo,hammer,29.8185916452119,martillo
+437,Spanish (Argentinian),mano,hand,20.6308835897281,mano
+438,Spanish (European),mano/s,hand,20.1527811007315,mano
+439,Spanish (Mexican),mano,hand,18.0573485658376,mano
+440,Spanish (Peruvian),mano(s),hand,20.6709993634532,mano
+441,Spanish (Argentinian),feliz,happy,28.534133830878,feliz
+442,Spanish (European),contento,happy,28.0562960348706,contento
+443,Spanish (Mexican),feliz,happy,33.2855515328994,feliz
+444,Spanish (Peruvian),contento/feliz,happy,27.5802154434123,contento
+445,Spanish (Argentinian),oír,hear,32.3897698389744,oír
+446,Spanish (European),oír,hear,27.7918270878557,oír
+447,Spanish (Mexican),oír,hear,36.2230174407003,oír
+448,Spanish (Peruvian),oír,hear,31.0916638135177,oír
+449,Spanish (Argentinian),helicóptero,helicopter,30.4553551428373,helicóptero
+450,Spanish (European),helicóptero,helicopter,28.6887389863417,helicóptero
+451,Spanish (Mexican),helicóptero,helicopter,32.1919112842339,helicóptero
+452,Spanish (Peruvian),helicóptero,helicopter,29.002671763276,helicóptero
+453,Spanish (Argentinian),caballo,horse,23.4573340243924,caballo
+454,Spanish (European),caballo,horse,21.557087081224,caballo
+455,Spanish (Mexican),caballo,horse,20.665447815042,caballo
+456,Spanish (Peruvian),caballo,horse,23.7098551951517,caballo
+457,Spanish (Argentinian),caliente,hot,23.5771546694421,caliente
+458,Spanish (European),caliente,hot,24.4804956438335,caliente
+459,Spanish (Mexican),caliente,hot,22.2034441647924,caliente
+460,Spanish (Peruvian),caliente,hot,24.6154932417468,caliente
+461,Spanish (Argentinian),cómo,how,30.568323555473,cómo
+462,Spanish (European),cómo,how,30.8094755706255,cómo
+463,Spanish (Mexican),cómo,how,34.0474869154073,cómo
+464,Spanish (Peruvian),cómo,how,30.422726675144,cómo
+465,Spanish (Argentinian),hambre,hungry,28.0061097859609,hambre
+466,Spanish (European),hambre,hungry,27.0290687534539,hambre
+467,Spanish (Mexican),hambre,hungry,27.5265443410063,hambre
+468,Spanish (Peruvian),hambre,hungry,26.5280956881592,hambre
+469,Spanish (Argentinian),jugo,juice,22.425543663699,jugo
+470,Spanish (European),zumo,juice,21.7165601640382,zumo
+471,Spanish (Mexican),jugo,juice,20.0301445933716,jugo
+472,Spanish (Peruvian),jugo,juice,23.5307517759341,jugo
+473,Spanish (Argentinian),llave,key,25.7209867366043,llave
+474,Spanish (European),llaves,key,22.473988270168,llave
+475,Spanish (Mexican),llave,key,24.0203175723172,llave
+476,Spanish (Peruvian),llaves,key,25.7401978656863,llave
+477,Spanish (Argentinian),cocina,kitchen,26.8780525351226,cocina
+478,Spanish (European),cocina,kitchen,23.6940670770834,cocina
+479,Spanish (Mexican),cocina,kitchen,26.3420909976042,cocina
+480,Spanish (Peruvian),cocina,kitchen,26.9382265587914,cocina
+481,Spanish (Argentinian),rodilla,knee,29.5414900584329,rodilla
+482,Spanish (European),rodillas,knee,27.3504178058592,rodilla
+483,Spanish (Mexican),rodilla,knee,29.6461648364586,rodilla
+484,Spanish (Peruvian),rodilla(s),knee,28.0303469794197,rodilla
+485,Spanish (Argentinian),cuchillo,knife,27.6944150293091,cuchillo
+486,Spanish (European),cuchillo,knife,25.1183408310107,cuchillo
+487,Spanish (Mexican),cuchillo,knife,26.9760631923461,cuchillo
+488,Spanish (Peruvian),cuchillo,knife,29.0024704768119,cuchillo
+489,Spanish (Argentinian),saber,know,32.4395980059306,saber
+490,Spanish (European),saber (no sé),know,25.9012909882792,saber
+491,Spanish (Mexican),saber,know,30.8608015759648,saber
+492,Spanish (Peruvian),saber [no sé],know,29.0024550253268,saber
+493,Spanish (Argentinian),piernas_patas,leg,27.5828325493713,piernas
+494,Spanish (European),pierna/s (pata/s),leg,23.9448226093757,piernas
+495,Spanish (Mexican),piernas,leg,26.7022231682898,piernas
+496,Spanish (Peruvian),pierna(s)/pata(s),leg,27.5799856374057,piernas
+497,Spanish (Argentinian),luz,light (object),23.2417230652909,luz
+498,Spanish (European),luz,light (object),19.4676166207893,luz
+499,Spanish (Mexican),luz,light (object),20.4988961875673,luz
+500,Spanish (Peruvian),luz,light (object),21.7511416030631,luz
+501,Spanish (Argentinian),gustar,like,28.684405330984,gustar
+502,Spanish (European),gustar,like,24.9576708519328,gustar
+503,Spanish (Mexican),gustar,like,29.5463640606698,gustar
+504,Spanish (Peruvian),gustar,like,28.2631090761029,gustar
+505,Spanish (Argentinian),leon,lion,25.0276469463733,leon
+506,Spanish (European),león,lion,23.6002732298306,león
+507,Spanish (Mexican),león,lion,26.690495585375,león
+508,Spanish (Peruvian),león,lion,24.0697119302519,león
+509,Spanish (Argentinian),labios,lip,30.7995899365189,labios
+510,Spanish (European),labios,lip,26.9230809406354,labios
+511,Spanish (Mexican),labios,lip,30.0181516800844,labios
+512,Spanish (Peruvian),labio(s),lip,30.422331560008,labios
+513,Spanish (Argentinian),carne,meat,25.0764356644352,carne
+514,Spanish (European),carne (chicha),meat,20.8470911994206,carne
+515,Spanish (Mexican),carne,meat,22.7977829459897,carne
+516,Spanish (Peruvian),carne/bistec,meat,25.9337567981884,carne
+517,Spanish (Argentinian),melón,melon,32.7553504037601,melón
+518,Spanish (European),melón,melon,28.0956228899501,melón
+519,Spanish (Mexican),melón,melon,30.9059442943574,melón
+520,Spanish (Peruvian),melón,melon,33.844140468075,melón
+521,Spanish (Argentinian),miau,meow,20.5539803519136,miau
+522,Spanish (European),miau,meow,19.1844203355089,miau
+523,Spanish (Mexican),miau,meow,15.250425375299,miau
+524,Spanish (Peruvian),miau (gato),meow,17.1295486065142,miau
+525,Spanish (Argentinian),leche,milk,20.7817683719607,leche
+526,Spanish (European),leche,milk,21.0748816278154,leche
+527,Spanish (Mexican),leche,milk,10.4528723190863,leche
+528,Spanish (Peruvian),leche,milk,20.1201585524243,leche
+529,Spanish (Argentinian),mamá_mami,mommy,12.9160915501654,mamá
+530,Spanish (European),mamá (mami),mommy,9.28908447280735,mamá
+532,Spanish (Peruvian),mamá/mami,mommy,7.94216989459127,mamá
+533,Spanish (Argentinian),luna,moon,24.322498326478,luna
+534,Spanish (European),luna,moon,21.6844698074832,luna
+535,Spanish (Mexican),luna,moon,22.937921571339,luna
+536,Spanish (Peruvian),luna,moon,24.4325775466793,luna
+537,Spanish (Argentinian),más,more,22.111284858857,más
+538,Spanish (European),más,more,22.4737120095102,más
+539,Spanish (Mexican),más,more,15.7644751253931,más
+540,Spanish (Peruvian),más,more,22.4628817364041,más
+541,Spanish (Argentinian),moto,motorcycle,23.9371298865708,moto
+542,Spanish (European),moto,motorcycle,20.5850953198677,moto
+543,Spanish (Mexican),moto,motorcycle,24.499212787674,moto
+544,Spanish (Peruvian),moto,motorcycle,25.9336307208236,moto
+545,Spanish (Argentinian),rató/rata,mouse,28.7152225694988,rata
+546,Spanish (European),ratón,mouse,25.7368185078443,ratón
+547,Spanish (Mexican),ratón,mouse,28.3648159700084,ratón
+548,Spanish (Peruvian),ratón/pericote,mouse,29.0022083699898,ratón
+549,Spanish (Argentinian),bigote,mustache,32.9194005432591,bigote
+550,Spanish (European),bigote,mustache,28.3681148914875,bigote
+551,Spanish (Mexican),bigote,mustache,36.0680717257612,bigote
+552,Spanish (Peruvian),bigote,mustache,31.8515467092143,bigote
+553,Spanish (Argentinian),nuevo,new,32.3881906877196,nuevo
+554,Spanish (European),nuevo,new,29.2766909849994,nuevo
+555,Spanish (Mexican),nuevo,new,30.1426345530086,nuevo
+556,Spanish (Peruvian),nuevo,new,31.4587606221131,nuevo
+557,Spanish (Argentinian),nariz,nose,21.9175417104083,nariz
+558,Spanish (European),nariz,nose,20.6182094929691,nariz
+559,Spanish (Mexican),nariz,nose,20.6150965861218,nariz
+560,Spanish (Peruvian),nariz,nose,21.5724714836803,nariz
+561,Spanish (Argentinian),ahora,now,28.6850498192446,ahora
+562,Spanish (European),ahora,now,26.7142211683855,ahora
+563,Spanish (Mexican),ahorita/ahora,now,30.4909337001796,ahorita
+564,Spanish (Peruvian),ahora/ahorita,now,30.1138274004032,ahora
+565,Spanish (Argentinian),abrir,open (action),23.0500564862221,abrir
+566,Spanish (European),abrir,open (action),20.5847468688206,abrir
+567,Spanish (Mexican),abrir,open (action),21.6016811925119,abrir
+568,Spanish (Peruvian),abrir,open (action),22.2852163420272,abrir
+569,Spanish (Argentinian),o,or,30.7630618091367,o
+570,Spanish (European),o,or,30.5503641726685,o
+571,Spanish (Mexican),o,or,44.0465971161427,o
+572,Spanish (Peruvian),o,or,30.4229247617441,o
+573,Spanish (Argentinian),afuera,out,26.9849924693304,afuera
+574,Spanish (European),fuera/afuera,out,26.5415560846203,afuera
+575,Spanish (Mexican),afuera,out,27.5846545107794,afuera
+576,Spanish (Peruvian),afuera/fuera,out,27.3620647318826,afuera
+577,Spanish (Argentinian),pintar,paint (action),26.3041737900764,pintar
+578,Spanish (European),pintar,paint (action),21.779861059586,pintar
+579,Spanish (Mexican),pintar,paint (action),27.0854607506768,pintar
+580,Spanish (Peruvian),pintar,paint (action),27.3619341416173,pintar
+581,Spanish (Argentinian),pinturitas,painting,31.4125011870191,pinturitas
+582,Spanish (European),pintura,painting,25.8354447566191,pintura
+583,Spanish (Mexican),pinturas,painting,30.3859376970134,pinturas
+584,Spanish (Peruvian),pintura,painting,31.8517916618604,pintura
+585,Spanish (Argentinian),pijama,pajamas,28.9627232203689,pijama
+586,Spanish (European),pijima,pajamas,23.8819540605346,pijama
+587,Spanish (Mexican),pijama,pajamas,27.9135211287754,pijima
+588,Spanish (Peruvian),piyama,pajamas,28.0300933274915,pijama
+589,Spanish (Argentinian),pantalones,pants,24.929441410055,pantalones
+590,Spanish (European),pantalón/es,pants,23.1000716032666,pantalones
+591,Spanish (Mexican),pantalón,pants,24.1065750713086,pantalones
+592,Spanish (Peruvian),pantalón(es),pants,24.4325300209872,pantalones
+593,Spanish (Argentinian),plaza,park,24.5887525473777,plaza
+594,Spanish (European),parque,park,22.1595659392637,parque
+595,Spanish (Mexican),parque,park,27.9633331982031,parque
+596,Spanish (Peruvian),parque,park,24.4325221313375,parque
+597,Spanish (Argentinian),fiesta,party,31.2851565002828,fiesta
+598,Spanish (European),fiesta,party,29.7686863718423,fiesta
+599,Spanish (Mexican),fiesta,party,28.335749781532,fiesta
+600,Spanish (Peruvian),fiesta,party,28.502570273507,fiesta
+601,Spanish (Argentinian),fideos,pasta,25.3473863483311,fideos
+602,Spanish (European),macarrones,pasta,26.1346865970135,macarrones
+603,Spanish (Mexican),espagueti,pasta,31.3475865147166,espagueti
+604,Spanish (Peruvian),tallarines/fideos/pasta,pasta,26.1293384932542,tallarines
+605,Spanish (Argentinian),almohada,pillow,27.1995975686665,almohada
+606,Spanish (European),almohada,pillow,27.3499773782278,almohada
+607,Spanish (Mexican),almohada,pillow,26.7129778363117,almohada
+608,Spanish (Peruvian),almohada,pillow,27.5800314549144,almohada
+609,Spanish (Argentinian),planta,plant,27.9772653584734,planta
+610,Spanish (European),planta,plant,28.0953146141655,planta
+611,Spanish (Mexican),planta,plant,31.3731204252897,planta
+612,Spanish (Peruvian),planta,plant,28.7488962197779,planta
+613,Spanish (Argentinian),plato,plate,25.174777857255,plato
+614,Spanish (European),plato,plate,23.0062994508645,plato
+615,Spanish (Mexican),plato,plate,22.6253455829519,plato
+616,Spanish (Peruvian),plato,plate,25.9336528678116,plato
+617,Spanish (Argentinian),por_favor_porfi,please,27.0913751842768,por favor
+618,Spanish (European),por favor,please,24.7026972612119,por favor
+619,Spanish (Mexican),por favor,please,23.5663475527013,por favor
+620,Spanish (Peruvian),por favor,please,24.4325974468881,por favor
+621,Spanish (Argentinian),papas,potato,23.6251444764854,papas
+622,Spanish (European),patata/s,potato,19.4318946532464,patatas
+623,Spanish (Mexican),papas,potato,15.5189406068473,papas
+624,Spanish (Peruvian),papa(s),potato,21.3933406069375,papas
+625,Spanish (Argentinian),cuá-cuá,quack quack,21.7709391742425,cuá-cuá
+626,Spanish (European),cua-cuá,quack quack,19.4995552804773,cuá-cuá
+627,Spanish (Mexican),cuacuá,quack quack,24.5787000791399,cuá-cuá
+628,Spanish (Peruvian),cua-cuá (pato),quack quack,17.9832869919009,cuá-cuá
+629,Spanish (Argentinian),callar_se,quiet (action),30.8383142164947,callar(se)
+630,Spanish (European),callar,quiet (action),25.3121295227398,callar
+631,Spanish (Mexican),callar(se),quiet (action),31.0336238982053,callar(se)
+632,Spanish (Peruvian),callar(se),quiet (action),28.5026542399707,callar(se)
+633,Spanish (Argentinian),leer,read,29.9511094366369,leer
+634,Spanish (European),leer,read,27.6058692106654,leer
+635,Spanish (Mexican),leer,read,29.640062745433,leer
+636,Spanish (Peruvian),leer,read,30.1136958062383,leer
+637,Spanish (Argentinian),rojo,red,26.4847212477277,rojo
+638,Spanish (European),rojo,red,24.1333343778275,rojo
+639,Spanish (Mexican),rojo,red,27.4248548730851,rojo
+640,Spanish (Peruvian),rojo,red,24.7993299379488,rojo
+641,Spanish (Argentinian),heladera,refrigerator,27.5549982121525,heladera
+642,Spanish (European),nevera/frigorífico,refrigerator,27.4587238034295,nevera
+643,Spanish (Mexican),refrigerador,refrigerator,30.5176683640351,refrigerador
+644,Spanish (Peruvian),refrigerador(a),refrigerator,31.0917514774143,refrigerador
+645,Spanish (Argentinian),quitar_se,remove,31.9982796921268,quitar(se)
+646,Spanish (European),quitar(se),remove,24.0392186997931,quitar(se)
+647,Spanish (Mexican),quitar(se),remove,30.2297827962208,quitar(se)
+648,Spanish (Peruvian),quitar(se),remove,28.5024027951698,quitar(se)
+649,Spanish (Argentinian),arroz,rice,25.9221131049749,arroz
+650,Spanish (European),arroz,rice,24.702435839335,arroz
+651,Spanish (Mexican),arroz,rice,23.5429456186347,arroz
+652,Spanish (Peruvian),arroz,rice,20.8526142701434,arroz
+653,Spanish (Argentinian),habitación_pieza,room,28.7453775017705,habitación
+654,Spanish (European),habitación/cuarto,room,25.5719282558161,habitación
+655,Spanish (Mexican),cuarto,room,27.7951684319123,cuarto
+656,Spanish (Peruvian),cuarto/dormitorio/habitación,room,26.3272635594386,cuarto
+657,Spanish (Argentinian),correr,run,25.6453528208672,correr
+658,Spanish (European),correr,run,24.0074571226547,correr
+659,Spanish (Mexican),correr,run,26.075033402966,correr
+660,Spanish (Peruvian),correr,run,26.128925999211,correr
+661,Spanish (Argentinian),triste,sad,29.6420877719008,triste
+662,Spanish (European),triste,sad,29.3202692967408,triste
+663,Spanish (Mexican),triste,sad,30.4672349104361,triste
+664,Spanish (Peruvian),triste,sad,29.2645495598689,triste
+665,Spanish (Argentinian),escuela_cole,school,27.835178664759,escuela
+666,Spanish (European),cole,school,22.7248471543378,cole
+667,Spanish (Mexican),escuela,school,25.7167610905676,escuela
+668,Spanish (Peruvian),cole/colegio/escuela,school,30.1138462160728,cole
+669,Spanish (Argentinian),tijeras,scissors,30.1625992099044,tijeras
+670,Spanish (European),tijeras,scissors,26.2692971495447,tijeras
+671,Spanish (Mexican),tijeras,scissors,29.6631097876017,tijeras
+672,Spanish (Peruvian),tijeras,scissors,29.5362258739294,tijeras
+673,Spanish (Argentinian),enfermo,sick,31.1601806616855,enfermo
+674,Spanish (European),enfermo/malito,sick,25.637318919375,enfermo
+675,Spanish (Mexican),enfermo,sick,29.566794431509,enfermo
+676,Spanish (Peruvian),enfermo,sick,28.5026402354534,enfermo
+677,Spanish (Argentinian),tonto_bobo,silly,31.457472468526,tonto
+678,Spanish (European),tonto/a,silly,20.6177551905128,tonto
+679,Spanish (Mexican),tonto,silly,38.5184131774595,tonto
+680,Spanish (Peruvian),tonto(a),silly,34.5188944704496,tonto
+681,Spanish (Argentinian),cantar,sing,27.0381449421005,cantar
+682,Spanish (European),cantar,sing,24.259244908276,cantar
+683,Spanish (Mexican),cantar,sing,26.5631405445712,cantar
+684,Spanish (Peruvian),cantar,sing,25.9335498098549,cantar
+685,Spanish (Argentinian),sentar_se,sit,25.5960170205262,sentar(se)
+686,Spanish (European),sentar(se),sit,23.2250733688502,sentar(se)
+687,Spanish (Mexican),sentar(se),sit,28.0300579254323,sentar(se)
+688,Spanish (Peruvian),sentar(se),sit,27.3620865474112,sentar(se)
+689,Spanish (Argentinian),patines,skate (object),32.9759417259966,patines
+690,Spanish (European),patines,skate (object),30.2460903743328,patines
+691,Spanish (Mexican),patines,skate (object),36.5694204864209,patines
+692,Spanish (Peruvian),skate/scooter,skate (object),30.7481945741722,scooter
+693,Spanish (Argentinian),pollera,skirt,32.6473761073627,pollera
+694,Spanish (European),falda,skirt,29.7233246594382,falda
+695,Spanish (Mexican),falda,skirt,32.1077130628642,falda
+696,Spanish (Peruvian),falda,skirt,30.7479025119265,falda
+697,Spanish (Argentinian),cielo,sky,26.4335202128559,cielo
+698,Spanish (European),cielo,sky,26.0677693991985,cielo
+699,Spanish (Mexican),cielo,sky,27.4654086464783,cielo
+700,Spanish (Peruvian),cielo,sky,27.5799056202516,cielo
+701,Spanish (Argentinian),víbora,snake,32.1412123288433,víbora
+702,Spanish (European),serpiente,snake,27.5328119218487,serpiente
+703,Spanish (Mexican),víbora,snake,33.981385569478,víbora
+704,Spanish (Peruvian),serpiente,snake,28.5024306819317,serpiente
+705,Spanish (Argentinian),nieve,snow,33.0317077712357,nieve
+706,Spanish (European),nieve,snow,27.3147920854695,nieve
+707,Spanish (Mexican),nieve,snow,37.1369961235686,nieve
+708,Spanish (Peruvian),nieve,snow,33.2600271611319,nieve
+709,Spanish (Argentinian),jabón,soap,25.0518592408758,jabón
+710,Spanish (European),jabón,soap,23.2563223770812,jabón
+711,Spanish (Mexican),jabón,soap,21.9292582409764,jabón
+712,Spanish (Peruvian),jabón,soap,24.2507208672551,jabón
+713,Spanish (Argentinian),sopa,soup,27.7507440432954,sopa
+714,Spanish (European),sopa,soup,23.5063702859278,sopa
+715,Spanish (Mexican),sopa,soup,15.8828453834792,sopa
+716,Spanish (Peruvian),sopa,soup,24.7994496429427,sopa
+717,Spanish (Argentinian),araña,spider,27.1454312651071,araña
+718,Spanish (European),araña,spider,27.9055932499935,araña
+719,Spanish (Mexican),araña,spider,25.0283518121128,araña
+720,Spanish (Peruvian),araña,spider,25.5485984234025,araña
+721,Spanish (Argentinian),cuchara,spoon,24.0332051391781,cuchara
+722,Spanish (European),cuchara,spoon,21.7800354767303,cuchara
+723,Spanish (Mexican),cuchara,spoon,23.3419937759544,cuchara
+724,Spanish (Peruvian),cuchara,spoon,25.1711146028488,cuchara
+725,Spanish (Argentinian),estrella,star,26.5893658862124,estrella
+726,Spanish (European),estrella,star,25.0862864099716,estrella
+727,Spanish (Mexican),estrella,star,27.1282166997442,estrella
+728,Spanish (Peruvian),estrella(s),star,25.9334766315682,estrella
+729,Spanish (Argentinian),palo,stick,27.3630404615833,palo
+730,Spanish (European),palo,stick,24.79822439391,palo
+731,Spanish (Mexican),palo,stick,26.7003009002879,palo
+732,Spanish (Peruvian),palo,stick,28.0303215199261,palo
+733,Spanish (Argentinian),frutilla,strawberry,28.7152577368753,frutilla
+734,Spanish (European),fresa/s,strawberry,26.6109473713146,fresa
+735,Spanish (Mexican),fresa,strawberry,28.2827960244382,fresa
+736,Spanish (Peruvian),fresa(s),strawberry,29.2645333945899,fresa
+737,Spanish (Argentinian),calle,street,26.5895863477657,calle
+738,Spanish (European),calle,street,20.4194069522372,calle
+739,Spanish (Mexican),calle,street,21.3056982971274,calle
+740,Spanish (Peruvian),calle,street,22.462883226446,calle
+741,Spanish (Argentinian),azucar,sugar,28.3545491987331,azúcar
+742,Spanish (European),azúcar,sugar,25.9681763497109,azúcar
+743,Spanish (Mexican),azúcar,sugar,27.4209302477115,azúcar
+744,Spanish (Peruvian),azúcar,sugar,28.0301945828181,azúcar
+745,Spanish (Argentinian),sol,sun,22.5219028385358,sol
+746,Spanish (European),sol,sun,21.1397999122111,sol
+747,Spanish (Mexican),sol,sun,22.6523293415264,sol
+748,Spanish (Peruvian),sol,sun,23.7097859837988,sol
+749,Spanish (Argentinian),hamaca,swing (object),26.7465148021133,hamaca
+750,Spanish (European),columpio,swing (object),24.1332824117553,columpio
+751,Spanish (Mexican),columpio,swing (object),29.3830102149192,columpio
+752,Spanish (Peruvian),columpio,swing (object),30.1141291369395,columpio
+753,Spanish (Argentinian),mesa,table,24.2017328124471,mesa
+754,Spanish (European),mesa,table,22.756126782475,mesa
+755,Spanish (Mexican),mesa,table,21.9024672066625,mesa
+756,Spanish (Peruvian),mesa,table,24.9844485793118,mesa
+757,Spanish (Argentinian),osito,teddybear,25.7969701069175,osito
+758,Spanish (European),osito,teddybear,22.1279476268248,osito
+759,Spanish (Mexican),osito,teddybear,24.3953762946106,osito
+760,Spanish (Peruvian),osito,teddybear,24.7994159251738,osito
+761,Spanish (Argentinian),gracias,thank you,21.0321719897567,gracias
+762,Spanish (European),gracias,thank you,20.5846794081434,gracias
+763,Spanish (Mexican),gracias,thank you,15.9948104999363,gracias
+764,Spanish (Peruvian),gracias,thank you,17.9833897089906,gracias
+765,Spanish (Argentinian),tigre,tiger,29.3125233906325,tigre
+766,Spanish (European),tigre,tiger,26.270007943387,tigre
+767,Spanish (Mexican),tigre,tiger,31.0945792600796,tigre
+768,Spanish (Peruvian),tigre,tiger,27.8025731851936,tigre
+769,Spanish (Argentinian),lengua,tongue,24.758791591583,lengua
+770,Spanish (European),lengua,tongue,24.0703760026766,lengua
+771,Spanish (Mexican),lengua,tongue,23.5725040880646,lengua
+772,Spanish (Peruvian),lengua,tongue,25.740053059667,lengua
+773,Spanish (Argentinian),dientes,tooth,24.418928594858,dientes
+774,Spanish (European),dientes,tooth,22.0965951471799,dientes
+775,Spanish (Mexican),dientes,tooth,22.2373796272101,dientes
+776,Spanish (Peruvian),diente(s),tooth,23.8894744645228,dientes
+777,Spanish (Argentinian),Juguete_chiche,toy (object),24.4918181861232,juguete
+778,Spanish (European),juguete,toy (object),23.662759642776,juguete
+779,Spanish (Mexican),juguete,toy (object),24.66748053892,juguete
+780,Spanish (Peruvian),juguete,toy (object),24.9845571819346,juguete
+781,Spanish (Argentinian),tractor,tractor,29.744624637593,tractor
+782,Spanish (European),tractor,tractor,26.236839709515,tractor
+783,Spanish (Mexican),tractor,tractor,32.401466586825,tractor
+784,Spanish (Peruvian),tractor,tractor,31.092124474627,tractor
+785,Spanish (Argentinian),tren,train,23.6491002860826,tren
+786,Spanish (European),tren,train,21.5571904158605,tren
+787,Spanish (Mexican),tren,train,22.5216452743266,tren
+788,Spanish (Peruvian),tren,train,25.1710022442621,tren
+789,Spanish (Argentinian),árbol,tree,23.8650716581667,árbol
+790,Spanish (European),árbol,tree,22.6307518358653,árbol
+791,Spanish (Mexican),árbol,tree,24.4220882306949,árbol
+792,Spanish (Peruvian),árbol,tree,24.9844485781988,árbol
+793,Spanish (Argentinian),camión,truck,24.9783759287726,camión
+794,Spanish (European),camión,truck,22.7247403718202,camión
+795,Spanish (Mexican),camión/troca,truck,30.0475236018722,camión
+796,Spanish (Peruvian),camión,truck,28.7484555833649,camión
+797,Spanish (Argentinian),panza,tummy,23.0979790979017,panza
+798,Spanish (European),barriga,tummy,25.5076624114922,barriga
+799,Spanish (Mexican),panza,tummy,22.6984206360999,panza
+800,Spanish (Peruvian),barriga/panza,tummy,24.069657440391,barriga
+801,Spanish (Argentinian),apagar,turn off,26.6937566867275,apagar
+802,Spanish (European),apagar,turn off,24.7979287021251,apagar
+803,Spanish (Mexican),apagar,turn off,26.1955437733357,apagar
+804,Spanish (Peruvian),apagar,turn off,26.1291116620326,apagar
+805,Spanish (Argentinian),tortuga,turtle,27.6945377528328,tortuga
+806,Spanish (European),tortuga,turtle,25.1508900424205,tortuga
+807,Spanish (Mexican),tortuga,turtle,28.8988903054118,tortuga
+808,Spanish (Peruvian),tortuga,turtle,26.5278748924584,tortuga
+809,Spanish (Argentinian),televisión_tele,tv,23.0739814137051,televisión
+810,Spanish (European),televisión,tv,23.1625677152491,televisión
+811,Spanish (Mexican),televisión,tv,22.53611873267,televisión
+812,Spanish (Peruvian),tele/televisión/televisor,tv,24.2507824274667,tele
+813,Spanish (Argentinian),pío-pío,tweet tweet,23.0260313514451,pío-pío
+814,Spanish (European),pío pío,tweet tweet,20.9114054521103,pío-pío
+815,Spanish (Mexican),pío pío,tweet tweet,20.7525718956004,pío-pío
+816,Spanish (Peruvian),pío-pío (pollito),tweet tweet,18.7883435131448,pío-pío
+817,Spanish (Argentinian),feo,ugly,27.2273477502281,feo
+818,Spanish (European),feo,ugly,24.2278459482171,feo
+819,Spanish (Mexican),feo,ugly,27.617152920597,feo
+820,Spanish (Peruvian),feo,ugly,27.5800658784045,feo
+821,Spanish (Argentinian),tío,uncle,22.4013692662086,tío
+822,Spanish (European),tío,uncle,20.7490401960181,tío
+823,Spanish (Mexican),tío,uncle,20.0977793788004,tío
+824,Spanish (Peruvian),tío (a),uncle,22.4628828211545,tío
+825,Spanish (Argentinian),arriba,up,26.7199241768587,arriba
+826,Spanish (European),arriba,up,23.5376512477052,arriba
+827,Spanish (Mexican),arriba,up,25.555263681404,arriba
+828,Spanish (Peruvian),arriba,up,26.7316487220451,arriba
+829,Spanish (Argentinian),lavar_se,wash,26.6936354120615,lavar(se)
+830,Spanish (European),lavar(se),wash,24.1018761638988,lavar(se)
+831,Spanish (Mexican),lavar(se),wash,28.0551425931034,lavar(se)
+832,Spanish (Peruvian),lavar(se),wash,28.2633216428013,lavar(se)
+833,Spanish (Argentinian),lavarropas,washing machine,30.0560023560213,lavarropas
+834,Spanish (European),lavadora,washing machine,26.5076079770988,lavadora
+835,Spanish (Mexican),lavadora,washing machine,34.3633431949843,lavadora
+836,Spanish (Peruvian),lavadora,washing machine,31.8517181513851,lavadora
+837,Spanish (Argentinian),agua,water (beverage),13.6857896498445,agua
+838,Spanish (European),agua,water (beverage),12.4479022977795,agua
+839,Spanish (Mexican),agua,water (beverage),12.3554920271128,agua
+840,Spanish (Peruvian),agua,water (beverage),12.9167834261912,agua
+841,Spanish (Argentinian),sandía,watermelon,32.8649542318137,sandía
+842,Spanish (European),sandía,watermelon,30.2962553404048,sandía
+843,Spanish (Mexican),sandía,watermelon,32.6325410088379,sandía
+844,Spanish (Peruvian),sandía,watermelon,29.8190384053798,sandía
+845,Spanish (Argentinian),qué,what,25.1504266769111,qué
+846,Spanish (European),qué,what,23.8507791006298,qué
+847,Spanish (Mexican),qué (question_words),what,25.7719390651974,qué
+848,Spanish (Peruvian),qué,what,25.3591075016049,qué
+849,Spanish (Argentinian),cuándo,when (question),33.3867177925169,cuándo
+850,Spanish (European),cuándo,when (question),31.5467218372199,cuándo
+851,Spanish (Mexican),cuándo,when (question),32.6682312500375,cuándo
+852,Spanish (Peruvian),cuándo,when (question),32.743418782591,cuándo
+853,Spanish (Argentinian),dónde,where (question),27.2268042390189,dónde
+854,Spanish (European),dónde,where (question),27.0995037538843,dónde
+855,Spanish (Mexican),dónde,where (question),29.8000185264364,dónde
+856,Spanish (Peruvian),dónde,where (question),27.3621083963676,dónde
+857,Spanish (Argentinian),blanco,white,28.3837784195628,blanco
+858,Spanish (European),blanco,white,26.0343090350223,blanco
+859,Spanish (Mexican),blanco,white,29.1460939991574,blanco
+860,Spanish (Peruvian),blanco,white,27.3621850148063,blanco
+861,Spanish (Argentinian),con,with,28.9619879930192,con
+862,Spanish (European),con,with,29.631213917039,con
+863,Spanish (Mexican),con,with,29.2936342352847,con
+864,Spanish (Peruvian),con,with,29.819128054244,con
+865,Spanish (Argentinian),lobo,wolf,28.9003294275566,lobo
+866,Spanish (European),lobo,wolf,25.4748974799216,lobo
+867,Spanish (Mexican),lobo,wolf,34.199033847979,lobo
+868,Spanish (Peruvian),lobo,wolf,27.3621411969113,lobo
+869,Spanish (Argentinian),guau-guau/ba bau,woof woof,16.8678388630027,guau-guau
+870,Spanish (European),gua-guáu,woof woof,14.9642599055962,guau-guau
+871,Spanish (Mexican),guaguá,woof woof,40.5934289569999,guau-guau
+872,Spanish (Peruvian),guau-guau (perro),woof woof,13.2953481057212,guau-guau
+873,Spanish (Argentinian),escribir,write,30.3075360151908,escribir
+874,Spanish (European),escribir,write,27.4230596809888,escribir
+875,Spanish (Mexican),escribir,write,31.1243984272735,escribir
+876,Spanish (Peruvian),escribir,write,31.0916199826125,escribir
+877,Spanish (Argentinian),amarillo,yellow,26.7984074925569,amarillo
+878,Spanish (European),amarillo,yellow,24.6070552613545,amarillo
+879,Spanish (Mexican),amarillo,yellow,27.9880271069837,amarillo
+880,Spanish (Peruvian),amarillo,yellow,26.7315923080243,amarillo
+881,Spanish (Argentinian),yogurt,yogurt,23.8170748273172,yogurt
+882,Spanish (European),yogur,yogurt,20.0511373773068,yogurt
+883,Spanish (Mexican),yoghurt,yogurt,25.7572077887918,yogurt
+884,Spanish (Peruvian),yogurt,yogurt,22.6405123898209,yogurt
+885,Spanish (Argentinian),cebra,zebra,31.6765464785356,cebra
+886,Spanish (European),cebras,zebra,29.7701438062495,cebra
+887,Spanish (Mexican),cebra,zebra,30.7825728014319,cebra
+888,Spanish (Peruvian),cebra,zebra,29.5364812239976,cebra
+889,Spanish (Argentinian),cierre,zipper,33.1478291358383,cierre
+890,Spanish (European),cremallera,zipper,29.8150394657068,cremallera
+891,Spanish (Mexican),cierre,zipper,37.4389248834518,cierre
+892,Spanish (Peruvian),cierre,zipper,32.7428944424787,cierre
+893,Spanish (Argentinian),zoológico,zoo,34.4059504762271,zoológico
+894,Spanish (European),zoo,zoo,29.7229367504076,zoo
+895,Spanish (Mexican),zoológico,zoo,32.1443692163738,zoológico
+896,Spanish (Peruvian),zoológico,zoo,34.5187922738783,zoológico
