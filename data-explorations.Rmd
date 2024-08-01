@@ -277,6 +277,28 @@ ggplot(sp_ws_prop_produced, aes(x = age, y = prop_produced, color = language)) +
   theme_minimal()
 ```
 
+Fitting single language data to regression
+```{r}t.
+# Filter "d_ws" data frame to just European Spanish
+Eu_Regression <- d_ws %>% 
+  filter(language == "Spanish (European)")
+# Convert TRUE/FALSE values to 1's and 0's
+Eu_Regression$produces <- as.numeric(Eu_Regression$produces)
+# Plot predicted data and original data points
+ggplot(Eu_Regression, aes(x = age, y = produces)) + 
+  geom_point() +
+  stat_smooth(method = "glm", color = "green", se = FALSE, 
+              method.args = list(family = binomial))
+
+sp_ws_prop_produced_Eu <- sp_ws_prop_produced %>% 
+  filter(language == "Spanish (European)")
+
+ggplot(sp_ws_prop_produced_Eu, aes(x = age, y = prop_produced)) + 
+  geom_point() +
+  stat_smooth(method = "glm", color = "green", se = FALSE, 
+              method.args = list(family = binomial))
+```
+
 Comparing identical/nonidentical surface forms
 ```{r}
 # Filter "items" data-set to "words" only, then filter again so that it contains only those uni_lemmas contained in the "aoas" data frame
@@ -346,45 +368,32 @@ Pr_Ar_Identical <- uni_lemma_aoa_master %>%
 Pr_Ar_NonIdentical <- uni_lemma_aoa_master %>% 
   filter(`Spanish (Peruvian).y` != `Spanish (Argentinian).y`)
 # Generate vector of differences for each possible dialect pairing
-dif_Eu_Mx_Identical <- abs(Eu_Mx_Identical$`Spanish (European).x` - Eu_Mx_Identical$`Spanish (Mexican).x`)
-dif_Eu_Mx_NonIdentical <- abs(Eu_Mx_NonIdentical$`Spanish (European).x` - Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
+dif_Eu_Mx_Identical <- Eu_Mx_Identical$`Spanish (European).x` - Eu_Mx_Identical$`Spanish (Mexican).x`
+dif_Eu_Mx_NonIdentical <- Eu_Mx_NonIdentical$`Spanish (European).x` - Eu_Mx_NonIdentical$`Spanish (Mexican).x`
 
-dif_Eu_Ar_Identical <- abs(Eu_Ar_Identical$`Spanish (European).x`- Eu_Ar_Identical$`Spanish (Argentinian).x`)
-dif_Eu_Ar_NonIdentical <- abs(Eu_Ar_NonIdentical$`Spanish (European).x` - Eu_Ar_NonIdentical$`Spanish (Argentinian).x`)
+dif_Eu_Ar_Identical <- Eu_Ar_Identical$`Spanish (European).x`- Eu_Ar_Identical$`Spanish (Argentinian).x`
+dif_Eu_Ar_NonIdentical <- Eu_Ar_NonIdentical$`Spanish (European).x` - Eu_Ar_NonIdentical$`Spanish (Argentinian).x`
 
-dif_Eu_Pr_Identical <- abs(Eu_Pr_Identical$`Spanish (European).x` - Eu_Pr_Identical$`Spanish (Peruvian).x`)
-dif_Eu_Pr_NonIdentical <- abs(Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_Nonidentical$`Spanish (Peruvian).x`)
+dif_Eu_Pr_Identical <- Eu_Pr_Identical$`Spanish (European).x` - Eu_Pr_Identical$`Spanish (Peruvian).x`
+dif_Eu_Pr_NonIdentical <- Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_Nonidentical$`Spanish (Peruvian).x`
 
-dif_Mx_Ar_Identical <- abs(Mx_Ar_Identical$`Spanish (Mexican).x` - Mx_Ar_Identical$`Spanish (Argentinian).x`)
-dif_Mx_Ar_NonIdentical <- abs(Mx_Ar_NonIdentical$`Spanish (Mexican).x` - Mx_Ar_NonIdentical$`Spanish (Argentinian).x`)
+dif_Mx_Ar_Identical <- Mx_Ar_Identical$`Spanish (Mexican).x` - Mx_Ar_Identical$`Spanish (Argentinian).x`
+dif_Mx_Ar_NonIdentical <- Mx_Ar_NonIdentical$`Spanish (Mexican).x` - Mx_Ar_NonIdentical$`Spanish (Argentinian).x`
 
-dif_Mx_Pr_Identical <- abs(Mx_Pr_Identical$`Spanish (Mexican).x` - Mx_Pr_Identical$`Spanish (Peruvian).x`)
-dif_Mx_Pr_NonIdentical <- abs(Mx_Pr_NonIdentical$`Spanish (Mexican).x` - Mx_Pr_NonIdentical$`Spanish (Peruvian).x`)
+dif_Mx_Pr_Identical <- Mx_Pr_Identical$`Spanish (Mexican).x` - Mx_Pr_Identical$`Spanish (Peruvian).x`
+dif_Mx_Pr_NonIdentical <- Mx_Pr_NonIdentical$`Spanish (Mexican).x` - Mx_Pr_NonIdentical$`Spanish (Peruvian).x`
 
-dif_Pr_Ar_Identical <- abs(Pr_Ar_Identical$`Spanish (Peruvian).x` - Pr_Ar_Identical$`Spanish (Argentinian).x`)
-dif_Pr_Ar_NonIdentical <- abs(Pr_Ar_NonIdentical$`Spanish (Peruvian).x` - Pr_Ar_NonIdentical$`Spanish (Argentinian).x`)
+dif_Pr_Ar_Identical <- Pr_Ar_Identical$`Spanish (Peruvian).x` - Pr_Ar_Identical$`Spanish (Argentinian).x`
+dif_Pr_Ar_NonIdentical <- Pr_Ar_NonIdentical$`Spanish (Peruvian).x` - Pr_Ar_NonIdentical$`Spanish (Argentinian).x`
 
-# Perform a t-test for these differences
-t.test(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)
-
-t.test(dif_Eu_Ar_Identical, dif_Eu_Ar_NonIdentical)
-
-t.test(dif_Eu_Pr_Identical, dif_Eu_Pr_NonIdentical)
-
-t.test(dif_Mx_Ar_Identical, dif_Mx_Ar_NonIdentical)
-
-t.test(dif_Mx_Pr_Identical, dif_Mx_Pr_NonIdentical)
-
-t.test(dif_Pr_Ar_Identical, dif_Pr_Ar_NonIdentical)
-
-# Make a data frame of p-values
+# Perform a t-test for these differences and place p-values into a data frame
 Identical_NonIdentical_p_values <- data.frame(
-  Eu_Mx = c(0.03656),
-  Eu_Ar = c(0.08711),
-  Eu_Pr = c(0.9932),
-  Mx_Ar = c(0.5462),
-  Mx_Pr = c(0.1664),
-  Pr_Ar = c(0.1011)
+  Eu_Mx = c(t.test(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)$p.value),
+  Eu_Ar = c(t.test(dif_Eu_Ar_Identical, dif_Eu_Ar_NonIdentical)$p.value),
+  Eu_Pr = c(t.test(dif_Eu_Pr_Identical, dif_Eu_Pr_NonIdentical)$p.value),
+  Mx_Ar = c(t.test(dif_Mx_Ar_Identical, dif_Mx_Ar_NonIdentical)$p.value),
+  Mx_Pr = c(t.test(dif_Mx_Pr_Identical, dif_Mx_Pr_NonIdentical)$p.value),
+  Pr_Ar = c(t.test(dif_Pr_Ar_Identical, dif_Pr_Ar_NonIdentical)$p.value)
 )
 ```
 
