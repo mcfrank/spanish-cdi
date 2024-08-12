@@ -30,16 +30,24 @@ Start with summary scores.
 ```{r}
 eu_ws <- get_administration_data(language = "Spanish (European)", 
                                  form = "WS", 
-                                 include_demographic_info = TRUE)
+                                 include_demographic_info = TRUE,
+                                 include_language_exposure = TRUE) %>% 
+  filter(language_exposures=="NULL")
 mx_ws <- get_administration_data(language = "Spanish (Mexican)", 
                                  form = "WS", 
-                                 include_demographic_info = TRUE)
+                                 include_demographic_info = TRUE,
+                                 include_language_exposure = TRUE) %>% 
+  filter(language_exposures=="NULL")
 pr_ws <- get_administration_data(language = "Spanish (Peruvian)", 
                                  form = "WS", 
-                                 include_demographic_info = TRUE)
+                                 include_demographic_info = TRUE,
+                                 include_language_exposure = TRUE) %>% 
+  filter(language_exposures=="NULL")
 ar_ws <- get_administration_data(language = "Spanish (Argentinian)", 
                                  form = "WS", 
-                                 include_demographic_info = TRUE)
+                                 include_demographic_info = TRUE,
+                                 include_language_exposure = TRUE) %>% 
+  filter(language_exposures=="NULL")
 
 sp_ws <- bind_rows(eu_ws, 
                    mx_ws, 
@@ -67,7 +75,9 @@ langs <- c("Spanish (European)", "Spanish (Mexican)", "Spanish (Peruvian)", "Spa
 d_ws <- map_df(langs, function(x) get_instrument_data(language = x, 
                                                       form = "WS", 
                                                       administration_info = TRUE, 
-                                                      item_info = TRUE))
+                                                      item_info = TRUE,
+                                                      include_language_exposure = TRUE)) %>% 
+  filter(language_exposures == "NULL")
 ```
 
 Find the overlapping unilemmas.
@@ -117,6 +127,17 @@ wb_data <- d_ws |>
 
 aoas <- fit_aoas(wb_data)
 ```
+DIF
+```{r}
+language <- round(runif(nrow(df.data))) |> as.factor()
+
+fit.2plmulti <- multipleGroup(df.data,
+                              model = modstr,
+                              itemtype = "2PL",
+                              group = grp,
+                              verbose = FALSE)
+```
+
 
 ```{r}
 ggplot(data = aoas) +
@@ -178,6 +199,24 @@ difference_mexican_peruvian <- data.frame(difference_mexican_peruvian = c(clean_
 difference_AoA <- data.frame(uni_lemma = c(clean_aoas$uni_lemma), difference_argentinian_european, difference_argentinian_mexican, difference_argentinian_peruvian, difference_european_mexican, difference_european_peruvian, difference_mexican_peruvian)
 ```
 
+Total Identical/NonIdentical Items
+```{r}
+ AoA_Totals <- data.frame(
+     Eu_Ar_I = c(nrow(Eu_Ar_Identical)),
+     Eu_Ar_NI = c(nrow(Eu_Ar_NonIdentical)),
+     Eu_Mx_I = c(nrow(Eu_Ar_Identical)),
+     Eu_Mx_NI = c(nrow(Eu_Ar_NonIdentical)),
+     Eu_Pr_I = c(nrow(Eu_Pr_Identical)),
+     Eu_Pr_NI = c(nrow(Eu_Pr_NonIdentical)),
+     Mx_Ar_I = c(nrow(Mx_Ar_Identical)),
+     Mx_Ar_NI = c(nrow(Mx_Ar_NonIdentical)),
+     Mx_Pr_I = c(nrow(Mx_Pr_Identical)),
+     Mx_Pr_NI = c(nrow(Mx_Pr_NonIdentical)),
+     Pr_Ar_I = c(nrow(Pr_Ar_Identical)),
+     Pr_Ar_NI = c(nrow(Pr_Ar_NonIdentical))
+ )
+```
+
 Permutation testing on dialect correlations
 ```{r} 
 # Function to perform permutation test
@@ -233,7 +272,7 @@ for (i in 1:length(dialects)) {
 }
 ```
 
-Regression 
+Regression for all 4 dialects
 ```{r}
 #Load gamlss library
 library(gamlss)
@@ -254,51 +293,106 @@ gam_mod <- gamlss(prop_produced ~ pbm(age, lambda = 10000) * as.factor(language)
                   data = sp_ws_prop_produced)
 summary(gam_mod)
 ```
+Single dialect regression/visualization
+```{r}
+# Filter data for each dialect and add a Dialect column
+sp_ws_prop_produced_Eu <- sp_ws_prop_produced %>% 
+  filter(language == "Spanish (European)") 
+
+sp_ws_prop_produced_Ar <- sp_ws_prop_produced %>% 
+  filter(language == "Spanish (Argentinian)") 
+
+sp_ws_prop_produced_Mx <- sp_ws_prop_produced %>% 
+  filter(language == "Spanish (Mexican)")
+
+sp_ws_prop_produced_Pr <- sp_ws_prop_produced %>% 
+  filter(language == "Spanish (Peruvian)")
+
+# Fit GAMLSS models for each dialect
+gam_mod_Eu <- gamlss(prop_produced ~ pb(age, lambda = 10000), 
+                     sigma.formula = ~ pb(age, lambda = 10000),
+                     data = sp_ws_prop_produced_Eu)
+
+gam_mod_Ar <- gamlss(prop_produced ~ pb(age, lambda = 10000), 
+                     sigma.formula = ~ pb(age, lambda = 10000),
+                     data = sp_ws_prop_produced_Ar)
+
+gam_mod_Mx <- gamlss(prop_produced ~ pb(age, lambda = 10000), 
+                     sigma.formula = ~ pb(age, lambda = 10000),
+                     data = sp_ws_prop_produced_Mx)
+
+gam_mod_Pr <- gamlss(prop_produced ~ pb(age, lambda = 10000), 
+                     sigma.formula = ~ pb(age, lambda = 10000),
+                     data = sp_ws_prop_produced_Pr)
+
+# Create age range and predictions for each dialect
+age_range_Eu <- seq(min(sp_ws_prop_produced_Eu$age), max(sp_ws_prop_produced_Eu$age), by = 0.1)
+pred_data_Eu <- data.frame(age = age_range_Eu)
+pred_data_Eu$predicted <- predict(gam_mod_Eu, newdata = pred_data_Eu, type = "response")
+pred_data_Eu$language <- "Spanish (European)"
+
+age_range_Ar <- seq(min(sp_ws_prop_produced_Ar$age), max(sp_ws_prop_produced_Ar$age), by = 0.1)
+pred_data_Ar <- data.frame(age = age_range_Ar)
+pred_data_Ar$predicted <- predict(gam_mod_Ar, newdata = pred_data_Ar, type = "response")
+pred_data_Ar$language <- "Spanish (Argentinian)"
+
+age_range_Mx <- seq(min(sp_ws_prop_produced_Mx$age), max(sp_ws_prop_produced_Mx$age), by = 0.1)
+pred_data_Mx <- data.frame(age = age_range_Mx)
+pred_data_Mx$predicted <- predict(gam_mod_Mx, newdata = pred_data_Mx, type = "response")
+pred_data_Mx$language <- "Spanish (Mexican)"
+
+age_range_Pr <- seq(min(sp_ws_prop_produced_Pr$age), max(sp_ws_prop_produced_Pr$age), by = 0.1)
+pred_data_Pr <- data.frame(age = age_range_Pr)
+pred_data_Pr$predicted <- predict(gam_mod_Pr, newdata = pred_data_Pr, type = "response")
+pred_data_Pr$language <- "Spanish (Peruvian)"
+
+# Combine the observed data and prediction data
+combined_data <- bind_rows(
+  sp_ws_prop_produced_Eu,
+  sp_ws_prop_produced_Ar,
+  sp_ws_prop_produced_Mx,
+  sp_ws_prop_produced_Pr
+)
+
+combined_pred_data <- bind_rows(
+  pred_data_Eu,
+  pred_data_Ar,
+  pred_data_Mx,
+  pred_data_Pr
+)
+
+# Plot using ggplot2 and facet_wrap
+ggplot(combined_data, aes(x = age, y = prop_produced, color = language)) +
+  geom_point(alpha = 0.5) +
+  geom_jitter(width = .5, alpha = .1) +
+  geom_line(data = combined_pred_data, aes(x = age, y = predicted, group = language), size = 1) +
+  facet_wrap(~ language) +
+  labs(
+    title = "Logistic Regression: Age vs. Proportion Produced by Dialect",
+    x = "Age",
+    y = "Proportion Produced"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "green", "red", "turquoise"))
+
+# Plot all dialects on the same chart
+ggplot(combined_data, aes(x = age, y = prop_produced, color = language)) +
+  geom_point(alpha = 0.1) +  # Observed data points
+  geom_line(data = combined_pred_data, aes(x = age, y = predicted, group = language, color = language), size = 1.5) +  # Predicted curves
+  labs(
+    title = "Logistic Regression: Age vs. Proportion Produced by Dialect",
+    x = "Age",
+    y = "Proportion Produced"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "green", "red", "turquoise")) +
+  theme(legend.position = "bottom")  # Place legend at the bottom for better readability
+```
 
 Fitting regression data to a curve 
 ```{r}
-# Generate a sequence of ages for prediction
-age_seq <- seq(min(sp_ws_prop_produced$age), max(sp_ws_prop_produced$age), by = 0.1)
-
-# Create a new data frame for predictions
-new_data <- expand.grid(age = age_seq, 
-                        language = unique(sp_ws_prop_produced$language))
-
-# Generate predictions from the model
-new_data$predicted <- predict(gam_mod, newdata = new_data, type = "response")
-
-# Plot the data and the fitted curve
-ggplot(sp_ws_prop_produced, aes(x = age, y = prop_produced, color = language)) +
-  geom_point() +
-  geom_line(data = new_data, aes(x = age, y = predicted, color = language), linewidth = 1) +
-  labs(title = "Predicted Proportion Produced by Age and Language",
-       x = "Age",
-       y = "Proportion Produced") +
-  theme_minimal()
+tracePlot(fit.2pl.Eu, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
 ```
-
-Fitting single language data to regression
-```{r}t.
-# Filter "d_ws" data frame to just European Spanish
-Eu_Regression <- d_ws %>% 
-  filter(language == "Spanish (European)")
-# Convert TRUE/FALSE values to 1's and 0's
-Eu_Regression$produces <- as.numeric(Eu_Regression$produces)
-# Plot predicted data and original data points
-ggplot(Eu_Regression, aes(x = age, y = produces)) + 
-  geom_point() +
-  stat_smooth(method = "glm", color = "green", se = FALSE, 
-              method.args = list(family = binomial))
-
-sp_ws_prop_produced_Eu <- sp_ws_prop_produced %>% 
-  filter(language == "Spanish (European)")
-
-ggplot(sp_ws_prop_produced_Eu, aes(x = age, y = prop_produced)) + 
-  geom_point() +
-  stat_smooth(method = "glm", color = "green", se = FALSE, 
-              method.args = list(family = binomial))
-```
-
 Comparing identical/nonidentical surface forms
 ```{r}
 # Filter "items" data-set to "words" only, then filter again so that it contains only those uni_lemmas contained in the "aoas" data frame
@@ -333,6 +427,141 @@ Eu_Mx_NonIdentical <- clean_aoas_Eu_Mx %>%
 # Calculate correlation
 correlation_Eu_Mx_NonIdentical <- cor(Eu_Mx_NonIdentical$`Spanish (European).x`, Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
 ```
+
+IRT 
+
+```{r}
+# Download necessary libraries
+library(psych) # for general functions
+library(glue) # for string gluing
+library(mirt) # for IRT models
+library(ggrepel) # for plot labels
+
+# devtools::install_github("masurp/ggmirt")
+library(ggmirt) # extension for 'mirt' 
+
+knitr::knit_hooks$set(inline = function(x) {
+  x <- sprintf("%1.2f", x)
+  paste(x, collapse = ", ")
+})
+
+# Trim and pivot "d_ws" data frame to fit the necessary specifications for the IRT model. Do this for each of the four dialects."
+d_ws_wider_Eu <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (European)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Ar <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Argentinian)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Mx <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Mexican)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Pr <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Peruvian)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+# Fit the 2PL models for each dialect
+modstr_Eu <- glue("F = 1 - {ncol(d_ws_wider_Eu)}")
+fit.2pl.Eu <- mirt(d_ws_wider_Eu,
+                model = modstr_Eu,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Ar <- glue("F = 1 - {ncol(d_ws_wider_Ar)}")
+fit.2pl.Ar <- mirt(d_ws_wider_Ar,
+                model = modstr_Ar,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Mx <- glue("F = 1 - {ncol(d_ws_wider_Mx)}")
+fit.2pl.Mx <- mirt(d_ws_wider_Mx,
+                model = modstr_Mx,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Pr <- glue("F = 1 - {ncol(d_ws_wider_Pr)}")
+fit.2pl.Pr <- mirt(d_ws_wider_Pr,
+                model = modstr_Pr,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+# model coefficients for each dialect
+coef.2pl.Eu <- as_tibble(coef(fit.2pl.Eu, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Ar <- as_tibble(coef(fit.2pl.Ar, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Mx <- as_tibble(coef(fit.2pl.Mx, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Pr <- as_tibble(coef(fit.2pl.Pr, simplify = TRUE)$items,
+                      rownames = "definition")
+
+
+```
+
+```{r}
+# Filter "d_ws" data-set to "nouns" only for each dialect
+Ar_nouns <- filter(items_filtered, language == "Spanish (Argentinian)") %>% 
+  filter(lexical_category == "nouns")
+
+Eu_nouns <- filter(items_filtered, language == "Spanish (European)") %>% 
+  filter(lexical_category == "nouns")
+
+Mx_nouns <- filter(items_filtered, language == "Spanish (Mexican)") %>% 
+  filter(lexical_category == "nouns")
+
+Pr_nouns <- filter(items_filtered, language == "Spanish (Peruvian)") %>% 
+  filter(lexical_category == "nouns")
+
+
+
+# Join by unilemma
+Ar_Eu_nouns <- Ar_nouns %>% 
+  left_join(Eu_nouns, by = "uni_lemma") %>%  
+  dplyr::select(uni_lemma, language.x, item_definition.x, language.y, item_definition.y) %>% 
+  na.omit() 
+
+uni_lemma_aoa_master_nouns <- uni_lemma_aoa_master %>% 
+  left_join(Ar_Eu_nouns) 
+
+diff_Ar_Eu_nouns <- uni_lemma_aoa_master_nouns %>% 
+  dplyr::select(uni_lemma, language.x, item_definition.x, `Spanish (Argentinian).x`, language.y, item_definition.y, `Spanish (European).x`) %>% 
+  na.omit()
+
+```
+Plot
+```{r}
+itemInfoPlot(fit.2pl.Ar, facet = FALSE, legend = FALSE) + scale_color_manual(values=rep("black", 1000))
+```
+
+
+``` {R}
+# Trim and pivot "d_ws" data frame to fit the necessary specifications for the IRT model"
+d_ws_wider <- d_ws %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+```
+
+
 
 t-test for AoA differences
 ```{r}
@@ -375,7 +604,7 @@ dif_Eu_Ar_Identical <- Eu_Ar_Identical$`Spanish (European).x`- Eu_Ar_Identical$`
 dif_Eu_Ar_NonIdentical <- Eu_Ar_NonIdentical$`Spanish (European).x` - Eu_Ar_NonIdentical$`Spanish (Argentinian).x`
 
 dif_Eu_Pr_Identical <- Eu_Pr_Identical$`Spanish (European).x` - Eu_Pr_Identical$`Spanish (Peruvian).x`
-dif_Eu_Pr_NonIdentical <- Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_Nonidentical$`Spanish (Peruvian).x`
+dif_Eu_Pr_NonIdentical <- Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_NonIdentical$`Spanish (Peruvian).x`
 
 dif_Mx_Ar_Identical <- Mx_Ar_Identical$`Spanish (Mexican).x` - Mx_Ar_Identical$`Spanish (Argentinian).x`
 dif_Mx_Ar_NonIdentical <- Mx_Ar_NonIdentical$`Spanish (Mexican).x` - Mx_Ar_NonIdentical$`Spanish (Argentinian).x`
@@ -410,7 +639,7 @@ Spanish_European_2PL <- mirt(eu_ws_cleaned,
                 verbose = FALSE)
 
 # model coefficients
-coef.2pl_Spanish_European_2PL <- as_tibble(coef(Spanish_European_2PL, simplify = TRUE)$items
+coef.2pl_Spanish_European_2PL <- as_tibble(coef(Spanish_European_2PL, simplify = TRUE)$items,
                       rownames = "definition")
 ```
 
@@ -471,4 +700,5 @@ Plot the density curve of the estimated ability scores
 ```{r}
 personDist(fit.2pl)
 ```
+
 

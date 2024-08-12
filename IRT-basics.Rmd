@@ -179,6 +179,7 @@ The IRF describes the probability that an individual with latent ability level $
 ## Step 1: Fit the 2PL model
 We fit the 2PL model using `itemtype = "2PL"`.
 ```{r}
+modstr <- glue("F = 1 - {ncol(df.data)}")
 fit.2pl <- mirt(df.data,
                 model = modstr,
                 itemtype = "2PL",
