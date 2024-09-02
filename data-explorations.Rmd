@@ -99,10 +99,7 @@ intersection <- items |>
 Filter data and replot. 
 
 ```{r}
-ms_ws <- d_ws |>
-  filter(uni_lemma %in% intersection) |>
-  group_by(child_id, language, age) |>
-  summarise(produces = sum(produces))
+
 
 ggplot(ms_ws, aes(x = age, y = produces)) + 
   geom_jitter(width = .2, alpha = .2) + 
@@ -129,13 +126,13 @@ aoas <- fit_aoas(wb_data)
 ```
 DIF
 ```{r}
-language <- round(runif(nrow(df.data))) |> as.factor()
+#language <- round(runif(nrow(df.data))) |> as.factor()
 
-fit.2plmulti <- multipleGroup(df.data,
-                              model = modstr,
-                              itemtype = "2PL",
-                              group = grp,
-                              verbose = FALSE)
+#fit.2plmulti <- multipleGroup(df.data,
+                             # model = modstr,
+                            #  itemtype = "2PL",
+                             # group = grp,
+                             # verbose = FALSE)
 ```
 
 
@@ -197,6 +194,103 @@ difference_european_peruvian <- data.frame(difference_european_peruvian = c(clea
 difference_mexican_peruvian <- data.frame(difference_mexican_peruvian = c(clean_aoas$`Spanish (Mexican)`- clean_aoas$`Spanish (Peruvian)`))
 
 difference_AoA <- data.frame(uni_lemma = c(clean_aoas$uni_lemma), difference_argentinian_european, difference_argentinian_mexican, difference_argentinian_peruvian, difference_european_mexican, difference_european_peruvian, difference_mexican_peruvian)
+```
+Comparing identical/nonidentical surface forms
+```{r}
+# Filter "items" data-set to "words" only, then filter again so that it contains only those uni_lemmas contained in the "aoas" data frame
+items_filtered <- filter(items, items$item_kind == 'word') %>% 
+  filter(uni_lemma %in% c((clean_aoas$uni_lemma)))
+# Arrange "uni_lemma" and "language" columns to match with order of said columns in "aoas" data frame
+  arrange(items_filtered, uni_lemma, language)
+# Trim dataframe to include only necessary columns
+items_filtered <- items_filtered %>%
+  dplyr::select(language, item_definition, uni_lemma)
+# Clean up discrepancies and match up with AoA data in a CSV file. Then read into a new data frame
+uni_lemma_aoa <- read.csv("cleaned_items_aoa.csv")
+# Pivot into a wider dataframe which includes language, uni_lemma, and cleaned surface forms
+cleaned_uni_lemma_wider <- uni_lemma_aoa %>%
+  dplyr::select(language, uni_lemma, aoa, cleaned_item) %>%
+  pivot_wider(names_from = language, values_from = cleaned_item, uni_lemma)
+# Select for just European Spanish and Mexican Spanish
+Eu_Mx <- cleaned_uni_lemma_wider %>% 
+  dplyr::select(uni_lemma, `Spanish (European)`, `Spanish (Mexican)`)
+#Join in AoA data
+clean_aoas_Eu_Mx <- clean_aoas %>%
+  dplyr::select(uni_lemma, `Spanish (European)`, `Spanish (Mexican)`) %>%
+  left_join(Eu_Mx, join_by(uni_lemma))
+# Filter for identical surface forms and calculate correlation
+Eu_Mx_Identical <- clean_aoas_Eu_Mx %>% 
+  filter(`Spanish (European).y` == `Spanish (Mexican).y`)
+# Calculate correlation of AoA values
+correlation_Eu_Mx_Identical <- cor(Eu_Mx_Identical$`Spanish (European).x`, Eu_Mx_Identical$`Spanish (Mexican).x`)
+# Filter for non-identical surface forms
+Eu_Mx_NonIdentical <- clean_aoas_Eu_Mx %>%
+  filter(`Spanish (European).y` != `Spanish (Mexican).y`)
+# Calculate correlation
+correlation_Eu_Mx_NonIdentical <- cor(Eu_Mx_NonIdentical$`Spanish (European).x`, Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
+```
+
+t-test for AoA differences
+```{r}
+# Generate a data frame with all AoA and uni_lemma values
+uni_lemma_aoa_wider <- uni_lemma_aoa %>%
+  dplyr::select(language, uni_lemma, aoa, cleaned_item) %>%
+  pivot_wider(names_from = language, values_from = cleaned_item, uni_lemma)
+uni_lemma_aoa_master <- clean_aoas %>%
+  left_join(uni_lemma_aoa_wider, join_by(uni_lemma))
+# Filter to identical and nonidentical surface forms for all dialect pairings
+Eu_Ar_Identical <- uni_lemma_aoa_master %>%
+  filter(`Spanish (European).y` == `Spanish (Argentinian).y`)
+Eu_Ar_NonIdentical <- uni_lemma_aoa_master %>%
+  filter(`Spanish (European).y` != `Spanish (Argentinian).y`)
+
+Eu_Pr_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (European).y` == `Spanish (Peruvian).y`)
+Eu_Pr_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (European).y` != `Spanish (Peruvian).y`)
+
+Mx_Ar_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` == `Spanish (Argentinian).y`)
+Mx_Ar_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` != `Spanish (Argentinian).y`)
+
+Mx_Pr_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` == `Spanish (Peruvian).y`)
+Mx_Pr_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Mexican).y` != `Spanish (Peruvian).y`)
+
+Pr_Ar_Identical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Peruvian).y` == `Spanish (Argentinian).y`)
+Pr_Ar_NonIdentical <- uni_lemma_aoa_master %>% 
+  filter(`Spanish (Peruvian).y` != `Spanish (Argentinian).y`)
+# Generate vector of differences for each possible dialect pairing
+dif_Eu_Mx_Identical <- Eu_Mx_Identical$`Spanish (European).x` - Eu_Mx_Identical$`Spanish (Mexican).x`
+dif_Eu_Mx_NonIdentical <- Eu_Mx_NonIdentical$`Spanish (European).x` - Eu_Mx_NonIdentical$`Spanish (Mexican).x`
+
+dif_Eu_Ar_Identical <- Eu_Ar_Identical$`Spanish (European).x`- Eu_Ar_Identical$`Spanish (Argentinian).x`
+dif_Eu_Ar_NonIdentical <- Eu_Ar_NonIdentical$`Spanish (European).x` - Eu_Ar_NonIdentical$`Spanish (Argentinian).x`
+
+dif_Eu_Pr_Identical <- Eu_Pr_Identical$`Spanish (European).x` - Eu_Pr_Identical$`Spanish (Peruvian).x`
+dif_Eu_Pr_NonIdentical <- Eu_Pr_NonIdentical$`Spanish (European).x` - Eu_Pr_NonIdentical$`Spanish (Peruvian).x`
+
+dif_Mx_Ar_Identical <- Mx_Ar_Identical$`Spanish (Mexican).x` - Mx_Ar_Identical$`Spanish (Argentinian).x`
+dif_Mx_Ar_NonIdentical <- Mx_Ar_NonIdentical$`Spanish (Mexican).x` - Mx_Ar_NonIdentical$`Spanish (Argentinian).x`
+
+dif_Mx_Pr_Identical <- Mx_Pr_Identical$`Spanish (Mexican).x` - Mx_Pr_Identical$`Spanish (Peruvian).x`
+dif_Mx_Pr_NonIdentical <- Mx_Pr_NonIdentical$`Spanish (Mexican).x` - Mx_Pr_NonIdentical$`Spanish (Peruvian).x`
+
+dif_Pr_Ar_Identical <- Pr_Ar_Identical$`Spanish (Peruvian).x` - Pr_Ar_Identical$`Spanish (Argentinian).x`
+dif_Pr_Ar_NonIdentical <- Pr_Ar_NonIdentical$`Spanish (Peruvian).x` - Pr_Ar_NonIdentical$`Spanish (Argentinian).x`
+
+# Perform a t-test for these differences and place p-values into a data frame
+Identical_NonIdentical_p_values <- data.frame(
+  Eu_Mx = c(t.test(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)$p.value),
+  Eu_Ar = c(t.test(dif_Eu_Ar_Identical, dif_Eu_Ar_NonIdentical)$p.value),
+  Eu_Pr = c(t.test(dif_Eu_Pr_Identical, dif_Eu_Pr_NonIdentical)$p.value),
+  Mx_Ar = c(t.test(dif_Mx_Ar_Identical, dif_Mx_Ar_NonIdentical)$p.value),
+  Mx_Pr = c(t.test(dif_Mx_Pr_Identical, dif_Mx_Pr_NonIdentical)$p.value),
+  Pr_Ar = c(t.test(dif_Pr_Ar_Identical, dif_Pr_Ar_NonIdentical)$p.value)
+)
 ```
 
 Total Identical/NonIdentical Items
@@ -380,7 +474,7 @@ ggplot(combined_data, aes(x = age, y = prop_produced, color = language)) +
   geom_point(alpha = 0.1) +  # Observed data points
   geom_line(data = combined_pred_data, aes(x = age, y = predicted, group = language, color = language), size = 1.5) +  # Predicted curves
   labs(
-    title = "Logistic Regression: Age vs. Proportion Produced by Dialect",
+    title = "Beta Regression: Age vs. Proportion Produced by Dialect",
     x = "Age",
     y = "Proportion Produced"
   ) +
@@ -388,10 +482,89 @@ ggplot(combined_data, aes(x = age, y = prop_produced, color = language)) +
   scale_color_manual(values = c("blue", "green", "red", "turquoise")) +
   theme(legend.position = "bottom")  # Place legend at the bottom for better readability
 ```
-
-Fitting regression data to a curve 
+IRT 
 ```{r}
-tracePlot(fit.2pl.Eu, facet = FALSE, legend = TRUE) + scale_color_brewer(palette = "Set3")
+# Download necessary libraries
+library(psych) # for general functions
+library(glue) # for string gluing
+library(mirt) # for IRT models
+library(ggrepel) # for plot labels
+
+# devtools::install_github("masurp/ggmirt")
+library(ggmirt) # extension for 'mirt' 
+
+knitr::knit_hooks$set(inline = function(x) {
+  x <- sprintf("%1.2f", x)
+  paste(x, collapse = ", ")
+})
+
+# Trim and pivot "d_ws" data frame to fit the necessary specifications for the IRT model. Do this for each of the four dialects."
+d_ws_wider_Eu <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (European)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Ar <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Argentinian)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Mx <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Mexican)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+d_ws_wider_Pr <- d_ws %>%
+  filter(item_kind == "word") %>%
+  filter(language == "Spanish (Peruvian)") %>% 
+  dplyr::select(data_id, item_id, produces) %>% 
+  pivot_wider(names_from = item_id, values_from = produces) %>% 
+  dplyr::select(-data_id) %>% 
+  mutate_all(as.integer)
+
+# Fit the 2PL models for each dialect
+modstr_Eu <- glue("F = 1 - {ncol(d_ws_wider_Eu)}")
+fit.2pl.Eu <- mirt(d_ws_wider_Eu,
+                model = modstr_Eu,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Ar <- glue("F = 1 - {ncol(d_ws_wider_Ar)}")
+fit.2pl.Ar <- mirt(d_ws_wider_Ar,
+                model = modstr_Ar,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Mx <- glue("F = 1 - {ncol(d_ws_wider_Mx)}")
+fit.2pl.Mx <- mirt(d_ws_wider_Mx,
+                model = modstr_Mx,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+modstr_Pr <- glue("F = 1 - {ncol(d_ws_wider_Pr)}")
+fit.2pl.Pr <- mirt(d_ws_wider_Pr,
+                model = modstr_Pr,
+                itemtype = "2PL",
+                verbose = FALSE)
+
+# model coefficients for each dialect
+coef.2pl.Eu <- as_tibble(coef(fit.2pl.Eu, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Ar <- as_tibble(coef(fit.2pl.Ar, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Mx <- as_tibble(coef(fit.2pl.Mx, simplify = TRUE)$items,
+                      rownames = "definition")
+coef.2pl.Pr <- as_tibble(coef(fit.2pl.Pr, simplify = TRUE)$items,
+                      rownames = "definition")
 ```
 Comparing identical/nonidentical surface forms
 ```{r}
@@ -426,6 +599,180 @@ Eu_Mx_NonIdentical <- clean_aoas_Eu_Mx %>%
   filter(`Spanish (European).y` != `Spanish (Mexican).y`)
 # Calculate correlation
 correlation_Eu_Mx_NonIdentical <- cor(Eu_Mx_NonIdentical$`Spanish (European).x`, Eu_Mx_NonIdentical$`Spanish (Mexican).x`)
+```
+
+ANOVA Tests for Lexical Categories, Pairwise t.tests, Density Curves
+```{r}
+source("scripts/fit_models.R")
+
+# Make a new "wb_data" that includes all uni_lemmas and fit new AoA data
+wb_data_full <- d_ws |> 
+  group_by(uni_lemma, language, age) |> 
+  summarise(total = n(),
+            num_true = sum(produces, na.rm = TRUE))
+
+aoas_full <- fit_aoas(wb_data_full)
+
+# Wrangle data to fit proper form for ANOVA test
+lexical_categories <- d_ws %>% 
+  distinct(uni_lemma, .keep_all=TRUE) %>% 
+  dplyr::select(uni_lemma, lexical_category) %>% 
+  arrange(uni_lemma)
+
+aoas_full_wider <- aoas_full %>%
+  dplyr::select(uni_lemma, language, aoa) %>% 
+  pivot_wider(names_from = language, values_from = aoa) %>% 
+  left_join(lexical_categories, by = "uni_lemma")
+
+# Perform ANOVA test for 6 possible dialect combinations
+
+aoas_Eu_Mx <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (European)", "Spanish (Mexican)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (European)` - `Spanish (Mexican)`)
+
+aov_aoas_Eu_Mx <- aov(diff_aoa ~ lexical_category, data = aoas_Eu_Mx)
+summary(aov_aoas_Eu_Mx)
+
+aoas_Eu_Ar <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (European)", "Spanish (Argentinian)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (European)` - `Spanish (Argentinian)`)
+
+aov_aoas_Eu_Ar <- aov(diff_aoa ~ lexical_category, data = aoas_Eu_Ar)
+summary(aov_aoas_Eu_Ar)
+
+aoas_Eu_Pr <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (European)", "Spanish (Peruvian)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (European)` - `Spanish (Peruvian)`)
+
+aov_aoas_Eu_Pr <- aov(diff_aoa ~ lexical_category, data = aoas_Eu_Pr)
+summary(aov_aoas_Eu_Pr)
+
+aoas_Ar_Mx <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (Argentinian)", "Spanish (Mexican)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (Argentinian)` - `Spanish (Mexican)`)
+
+aov_aoas_Ar_Mx <- aov(diff_aoa ~ lexical_category, data = aoas_Ar_Mx)
+summary(aov_aoas_Ar_Mx)
+
+aoas_Ar_Pr <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (Argentinian)", "Spanish (Peruvian)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (Argentinian)` - `Spanish (Peruvian)`)
+
+aov_aoas_Ar_Pr <- aov(diff_aoa ~ lexical_category, data = aoas_Ar_Pr)
+summary(aov_aoas_Ar_Pr)
+
+aoas_Mx_Pr <- aoas_full_wider %>% 
+  dplyr::select(uni_lemma,"Spanish (Mexican)", "Spanish (Peruvian)", lexical_category) %>% 
+  na.omit() %>%
+  mutate(diff_aoa = `Spanish (Mexican)` - `Spanish (Peruvian)`)
+
+aov_aoas_Mx_Pr <- aov(diff_aoa ~ lexical_category, data = aoas_Mx_Pr)
+summary(aov_aoas_Mx_Pr)
+
+# Run pairwise t.tests for each of the possible dialect combinations
+
+pairwise_ttest_Eu_Ar <- pairwise.t.test(aoas_Eu_Ar$diff_aoa, aoas_Eu_Ar$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Eu_Ar)
+
+pairwise_ttest_Ar_Mx <- pairwise.t.test(aoas_Ar_Mx$diff_aoa, aoas_Ar_Mx$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Ar_Mx)
+
+pairwise_ttest_Ar_Pr <- pairwise.t.test(aoas_Ar_Pr$diff_aoa, aoas_Ar_Pr$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Ar_Pr)
+
+pairwise_ttest_Eu_Mx <- pairwise.t.test(aoas_Eu_Mx$diff_aoa, aoas_Eu_Mx$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Eu_Mx)
+
+pairwise_ttest_Eu_Pr <- pairwise.t.test(aoas_Eu_Pr$diff_aoa, aoas_Eu_Pr$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Eu_Pr)
+
+pairwise_ttest_Mx_Pr <- pairwise.t.test(aoas_Mx_Pr$diff_aoa, aoas_Mx_Pr$lexical_category, p.adjust.method = "bonferroni")
+print(pairwise_ttest_Mx_Pr)
+
+
+# Visualize AoA as density curves
+library(reshape2)
+
+# Reshape the data into a long format
+aoa_density_curves <- clean_aoas %>% 
+  reshape2::melt(id.vars = NULL, 
+                measure.vars = c("Spanish (Argentinian)", "Spanish (Mexican)", "Spanish (European)", "Spanish (Peruvian)"),
+                variable.name = "Dialect", 
+                value.name = "Value")
+
+# Create the density plot
+ggplot(aoa_density_curves, aes(x = Value, fill = Dialect, color = Dialect)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Age of Acquisition Density Curves for Different Dialects", 
+       x = "Age of Acquisition (Months)", 
+       y = "Density") +
+  scale_x_continuous(limits = c(8, 42)) +  # Adjust x-axis limits
+  scale_y_continuous(expand = expansion(mult = c(0, .2))) +  # Adjust y-axis scaling for more vertical space
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Create boxplots for each dialect combination
+# Create a new column for each data frame containing absolute values
+aoas_Ar_Mx$abs_diff_aoa <- abs(aoas_Ar_Mx$diff_aoa)
+aoas_Ar_Pr$abs_diff_aoa <- abs(aoas_Ar_Pr$diff_aoa)
+aoas_Eu_Ar$abs_diff_aoa <- abs(aoas_Eu_Ar$diff_aoa)
+aoas_Eu_Mx$abs_diff_aoa <- abs(aoas_Eu_Mx$diff_aoa)
+aoas_Eu_Pr$abs_diff_aoa <- abs(aoas_Eu_Pr$diff_aoa)
+aoas_Mx_Pr$abs_diff_aoa <- abs(aoas_Mx_Pr$diff_aoa)
+
+# Create boxplots
+ggplot(aoas_Ar_Mx, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (Argentinian) vs Spanish (Mexican)",
+       x = "Lexical Category",
+       y = "Diff AoA Ar_Mx") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(aoas_Ar_Pr, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (Argentinian) vs Spanish (Peruvian)",
+       x = "Lexical Category",
+       y = "Diff AoA Ar_Pr") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(aoas_Eu_Ar, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (European) vs Spanish (Argentinian)",
+       x = "Lexical Category",
+       y = "Diff AoA Eu_Ar") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(aoas_Eu_Mx, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (European) vs Spanish (Mexican)",
+       x = "Lexical Category",
+       y = "Diff AoA Eu_Mx") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(aoas_Eu_Pr, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (European) vs Spanish (Peruvian)",
+       x = "Lexical Category",
+       y = "Diff AoA Eu_Pr") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(aoas_Mx_Pr, aes(x = lexical_category, y = abs_diff_aoa, fill = lexical_category)) +
+  geom_boxplot() +
+  labs(title = "Lexical Categories: Spanish (Mexican) vs Spanish (Peruvian)",
+       x = "Lexical Category",
+       y = "Diff AoA Mx_Pr") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 IRT 
@@ -516,43 +863,13 @@ coef.2pl.Pr <- as_tibble(coef(fit.2pl.Pr, simplify = TRUE)$items,
 
 ```
 
-```{r}
-# Filter "d_ws" data-set to "nouns" only for each dialect
-Ar_nouns <- filter(items_filtered, language == "Spanish (Argentinian)") %>% 
-  filter(lexical_category == "nouns")
-
-Eu_nouns <- filter(items_filtered, language == "Spanish (European)") %>% 
-  filter(lexical_category == "nouns")
-
-Mx_nouns <- filter(items_filtered, language == "Spanish (Mexican)") %>% 
-  filter(lexical_category == "nouns")
-
-Pr_nouns <- filter(items_filtered, language == "Spanish (Peruvian)") %>% 
-  filter(lexical_category == "nouns")
-
-
-
-# Join by unilemma
-Ar_Eu_nouns <- Ar_nouns %>% 
-  left_join(Eu_nouns, by = "uni_lemma") %>%  
-  dplyr::select(uni_lemma, language.x, item_definition.x, language.y, item_definition.y) %>% 
-  na.omit() 
-
-uni_lemma_aoa_master_nouns <- uni_lemma_aoa_master %>% 
-  left_join(Ar_Eu_nouns) 
-
-diff_Ar_Eu_nouns <- uni_lemma_aoa_master_nouns %>% 
-  dplyr::select(uni_lemma, language.x, item_definition.x, `Spanish (Argentinian).x`, language.y, item_definition.y, `Spanish (European).x`) %>% 
-  na.omit()
-
-```
 Plot
 ```{r}
-itemInfoPlot(fit.2pl.Ar, facet = FALSE, legend = FALSE) + scale_color_manual(values=rep("black", 1000))
+testInfoPlot(fit.2pl.Ar) + scale_color_manual(values=rep("black", 1000))
 ```
 
 
-``` {R}
+``` {r}
 # Trim and pivot "d_ws" data frame to fit the necessary specifications for the IRT model"
 d_ws_wider <- d_ws %>% 
   dplyr::select(data_id, item_id, produces) %>% 
@@ -561,7 +878,46 @@ d_ws_wider <- d_ws %>%
   mutate_all(as.integer)
 ```
 
+DIF
+``` {r}
+# Load necessary 
+library(psych) # for general functions
+library(glue) # for string gluing
+library(mirt) # for IRT models
+library(ggrepel) # for plot labels
 
+d_ws_DIF_Eu_Mx <- d_ws %>%
+  filter(uni_lemma %in% intersection) %>% 
+  dplyr::select(data_id, uni_lemma, language, produces) %>%
+  pivot_wider(names_from = uni_lemma, values_from = produces) %>% 
+  filter(language == c("Spanish (European)", "Spanish (Mexican)")) %>% 
+  dplyr::select(-data_id) %>%  
+  mutate_at(vars(-language), ~ as.numeric(.))
+
+DIF_language <- d_ws_DIF_Eu_Mx %>% 
+  dplyr::pull(language) %>% 
+  as.factor()
+
+d_ws_DIF_Eu_Mx <- d_ws_DIF_Eu_Mx %>% 
+  dplyr::select(-language)
+  
+# Perform DIF Analysis
+modstr <- glue("F = 1 - {ncol(d_ws_DIF_Eu_Mx)}")
+fit_2plmulti <- multipleGroup(d_ws_DIF_Eu_Mx,
+                              model = modstr,
+                              method = "MHRM",
+                              itemtype = "2PL",
+                              group = DIF_language,
+                              verbose = FALSE)
+  
+# Likelihood ratio test
+dif_2plmulti <- DIF(fit_2plmulti,
+                    which.par = c("a1", "d"),
+                    method = "MHRM",
+                    technical = list("NCYCLES" = 1000),
+                    items2test = c(1:ncol(d_ws_DIF_Eu_Mx)),
+                    p.adjust = "BH")
+```
 
 t-test for AoA differences
 ```{r}
@@ -615,6 +971,22 @@ dif_Mx_Pr_NonIdentical <- Mx_Pr_NonIdentical$`Spanish (Mexican).x` - Mx_Pr_NonId
 dif_Pr_Ar_Identical <- Pr_Ar_Identical$`Spanish (Peruvian).x` - Pr_Ar_Identical$`Spanish (Argentinian).x`
 dif_Pr_Ar_NonIdentical <- Pr_Ar_NonIdentical$`Spanish (Peruvian).x` - Pr_Ar_NonIdentical$`Spanish (Argentinian).x`
 
+# Combine the data into a single data frame for easier plotting
+differences <- data.frame(
+  Group = c(rep("Identical", length(dif_Eu_Mx_Identical)), rep("NonIdentical", length(dif_Eu_Mx_NonIdentical))),
+  Difference = c(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)
+)
+
+# Create the boxplots
+library(ggplot2)
+
+ggplot(differences, aes(x = Group, y = Difference, fill = Group)) +
+  geom_boxplot() +
+  labs(title = "Comparing Identical vs Non-Identical Surface Forms (European vs Mexican)",
+       x = "Group",
+       y = "Diff AoA") +
+  theme_minimal()
+
 # Perform a t-test for these differences and place p-values into a data frame
 Identical_NonIdentical_p_values <- data.frame(
   Eu_Mx = c(t.test(dif_Eu_Mx_Identical, dif_Eu_Mx_NonIdentical)$p.value),
@@ -625,8 +997,14 @@ Identical_NonIdentical_p_values <- data.frame(
   Pr_Ar = c(t.test(dif_Pr_Ar_Identical, dif_Pr_Ar_NonIdentical)$p.value)
 )
 ```
+Dendrogram
+```{r}
+correlation_dendrogram <- correl %>% 
+  dist() %>% 
+  hclust()
 
-
+  plot(correlation_dendrogram, ylim = c(0, max(correlation_dendrogram$height) * 1.2))
+```
 
 ## Step 1: Fit the 2PL model
 We fit the 2PL model using `itemtype = "2PL"`.
